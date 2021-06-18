@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "251805365911",
+    "project_id": "fitbook-b182f",
+    "storage_bucket": "fitbook-b182f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251805365911:android:a9a6fc4892d6f0bb09dbd2",
+        "android_client_info": {
+          "package_name": "abdullamzini.com.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251805365911-0q7aic4ule71dk5lg77023tn9i5nmd9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv_BbFrfyH39kfIPtQswWVgnjrwNWxnIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251805365911-0q7aic4ule71dk5lg77023tn9i5nmd9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
