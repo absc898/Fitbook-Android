@@ -1,4 +1,4 @@
-package abdullamzini.com.myapplication.Auth
+package abdullamzini.com.myapplication.auth
 
 import abdullamzini.com.myapplication.R
 import android.content.Intent

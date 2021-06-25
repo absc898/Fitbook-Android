@@ -1,4 +1,4 @@
-package abdullamzini.com.myapplication.Auth
+package abdullamzini.com.myapplication.auth
 
 import abdullamzini.com.myapplication.MainActivity
 import abdullamzini.com.myapplication.R

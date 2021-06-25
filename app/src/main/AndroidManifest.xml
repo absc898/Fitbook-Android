@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitbook">
         <activity android:name=".FeedActivity"></activity>
-        <activity android:name=".Auth.LoginActivity">
+        <activity android:name=".auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.CreateAccountActivity" />
+        <activity android:name=".auth.CreateAccountActivity" />
         <activity android:name=".MainActivity" />
     </application>
 
