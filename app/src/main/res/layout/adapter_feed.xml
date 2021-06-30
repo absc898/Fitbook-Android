@@ -69,6 +69,17 @@
             app:layout_constraintTop_toBottomOf="@+id/feedUsername"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <TextView
+            android:id="@+id/postDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="post details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toEndOf="@+id/loveButton"
+            app:layout_constraintTop_toBottomOf="@+id/feedImage" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
