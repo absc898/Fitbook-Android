@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.functions.ktx.functions
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.like.LikeButton
+import com.like.OnLikeListener
 import kotlinx.android.synthetic.main.adapter_feed.view.*
 
 
@@ -33,10 +37,12 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
     override fun onBindViewHolder(holder: FeedAdapterVH, position: Int, model: FeedEntity) {
         holder.username.text = model.getUsername()
         holder.postDetails.text = model.getPostDetails()
-        holder.postImage.setImageResource(R.drawable.example_post)
+        //holder.postImage.setImageResource(R.drawable.example_post)
 
+        val ID = model.getID()
         val userID = model.getUserID()
         val photoID = model.getPhotoID()
+        val likes = model.getUserLikesIds()
         val pathReference: StorageReference =
             FirebaseStorage.getInstance().reference.child("${userID}/posts/${photoID}.jpg")
         pathReference.downloadUrl.addOnSuccessListener {
@@ -46,6 +52,37 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         }.addOnFailureListener {
             //Log.e("Image Download: ", it.message)
         }
+        if (likes != null) {
+            if(userID.toString() in likes) {
+                holder.likesButton.isLiked = true
+            }
+
+                holder.likesButton.setOnLikeListener(object : OnLikeListener {
+                    override fun liked(likeButton: LikeButton) {
+                        val like = hashMapOf(
+                            "ID" to ID,
+                            "status" to "true",
+                        )
+                        Firebase.functions.getHttpsCallable("handleLikes")
+                            .call(like)
+                            .continueWith {
+                            }
+                        holder.likesButton.isLiked = true;
+                    }
+
+                    override fun unLiked(likeButton: LikeButton) {
+                        val like = hashMapOf(
+                            "ID" to ID,
+                            "status" to "false",
+                        )
+                        Firebase.functions.getHttpsCallable("handleLikes")
+                            .call(like)
+                            .continueWith {
+                            }
+                        holder.likesButton.isLiked = false;
+                    }
+                })
+        }
     }
 
     class FeedAdapterVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -53,6 +90,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         var username = itemView.feedUsername
         var postImage = itemView.feedImage
         var postDetails = itemView.postDetails
+        var likesButton = itemView.loveButton
         var cardSite = itemView.cardView
     }
 
