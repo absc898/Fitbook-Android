@@ -8,16 +8,19 @@ class FeedEntity {
     private lateinit var userID: String
     private lateinit var ID: String
     private lateinit var userLikesIds: List<String>
+    private lateinit var comments: ArrayList<Map<String, String>>
 
     constructor()
 
-    constructor(name: String, urlID:String, postDetails: String, userID: String, ID: String, userLikesIds: List<String>) {
+    constructor(name: String, urlID:String, postDetails: String, userID: String, ID: String, userLikesIds: ArrayList<String>,
+                comments: ArrayList<Map<String, String>>) {
         username = name
         photoID = urlID
         this.postDetails = postDetails
         this.userID = userID
         this.ID = ID
         this.userLikesIds = userLikesIds
+        this.comments = comments
     }
 
     fun getUsername(): String? {
@@ -41,5 +44,9 @@ class FeedEntity {
 
     fun getUserLikesIds() : List<String>? {
         return userLikesIds
+    }
+
+    fun getComments() : ArrayList<Map<String, String>> {
+        return comments
     }
 }

@@ -1,7 +1,9 @@
 package abdullamzini.com.myapplication.adapters
 
+import abdullamzini.com.myapplication.CommentsActivity
 import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.entities.FeedEntity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +40,13 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         holder.username.text = model.getUsername()
         holder.postDetails.text = model.getPostDetails()
         //holder.postImage.setImageResource(R.drawable.example_post)
+        val comments = model.getComments()
+        val list = ArrayList<Map<String, String>>(comments)
+        holder.comments.setOnClickListener{
+            val intent = Intent(holder.itemView.context, CommentsActivity::class.java)
+            intent.putExtra("arraylist",  list)
+            holder.itemView.context.startActivity(intent)
+        }
 
         val ID = model.getID()
         val userID = model.getUserID()
@@ -91,6 +100,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         var postImage = itemView.feedImage
         var postDetails = itemView.postDetails
         var likesButton = itemView.loveButton
+        var comments = itemView.comments
         var cardSite = itemView.cardView
     }
 
