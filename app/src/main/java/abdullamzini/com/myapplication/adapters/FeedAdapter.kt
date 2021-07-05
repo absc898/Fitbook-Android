@@ -42,16 +42,18 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         //holder.postImage.setImageResource(R.drawable.example_post)
         val comments = model.getComments()
         val list = ArrayList<Map<String, String>>(comments)
-        holder.comments.setOnClickListener{
-            val intent = Intent(holder.itemView.context, CommentsActivity::class.java)
-            intent.putExtra("arraylist",  list)
-            holder.itemView.context.startActivity(intent)
-        }
-
         val ID = model.getID()
         val userID = model.getUserID()
         val photoID = model.getPhotoID()
         val likes = model.getUserLikesIds()
+
+        holder.comments.setOnClickListener{
+            val intent = Intent(holder.itemView.context, CommentsActivity::class.java)
+            intent.putExtra("arraylist",  list)
+            intent.putExtra("postID", ID)
+            holder.itemView.context.startActivity(intent)
+        }
+
         val pathReference: StorageReference =
             FirebaseStorage.getInstance().reference.child("${userID}/posts/${photoID}.jpg")
         pathReference.downloadUrl.addOnSuccessListener {
