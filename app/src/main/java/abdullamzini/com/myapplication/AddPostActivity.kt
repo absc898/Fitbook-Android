@@ -125,7 +125,7 @@ class AddPostActivity : AppCompatActivity() {
     private fun preparePost() {
         val postDetails: String = postDetails.text.toString()
         val user = auth.currentUser
-        val uniqueImageIDName = UUID.randomUUID().toString();
+        val uniqueImageIDName = UUID.randomUUID().toString()
         val storageReference = storage.reference
 
         val post = hashMapOf(

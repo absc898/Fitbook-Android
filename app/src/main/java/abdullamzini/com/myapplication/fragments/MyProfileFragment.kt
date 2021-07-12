@@ -3,12 +3,10 @@ package abdullamzini.com.myapplication.fragments
 import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.adapters.GalleryAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -37,26 +35,19 @@ class MyProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        var docRef = db.collection("users").document("FrgEzhizr7SHirybyHuGmgpxfg03")
+        var docRef = db.collection("users").document(auth.currentUser?.uid.toString())
 
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if(document != null) {
-                    var currentDoc = document.data;
-                    posts = document.data?.get("posts") as ArrayList<*>
-                    Toast.makeText(context, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
-                    gridView = requireView().findViewById(R.id.gridOfImage)
-                    adapter = GalleryAdapter(requireContext(), posts)
-                    gridView.adapter = adapter
-                } else {
-                    // Doc does not exist
-                }
+        docRef.addSnapshotListener { snapshot, e ->
+            if(snapshot != null) {
+                var currentDoc = snapshot.data;
+                posts = snapshot.data?.get("posts") as ArrayList<*>
+                gridView = requireView().findViewById(R.id.gridOfImage)
+                adapter = GalleryAdapter(requireContext(), posts, auth.currentUser?.uid.toString())
+                gridView.adapter = adapter
+            } else {
+                // Doc does not exist
             }
-            .addOnFailureListener { exception ->
-                Log.d("USER", "Failed to get user data", exception)
-            }
-
+        }
         return inflater.inflate(R.layout.fragment_my_profile, container, false)
     }
 
