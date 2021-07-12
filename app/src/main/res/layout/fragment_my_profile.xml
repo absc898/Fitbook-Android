@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context=".fragments.MyProfileFragment">
 
 
@@ -14,8 +15,76 @@
         android:layout_height="wrap_content"
         android:numColumns="3"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/profilePic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:foreground="@drawable/rounded"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/postNum"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/postNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Post:"
+        app:layout_constraintBaseline_toBaselineOf="@+id/likesNum"
+        app:layout_constraintEnd_toStartOf="@+id/likesNum" />
+
+    <TextView
+        android:id="@+id/likesNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Likes"
+        app:layout_constraintBaseline_toBaselineOf="@+id/workoutNum"
+        app:layout_constraintEnd_toStartOf="@+id/workoutNum" />
+
+    <TextView
+        android:id="@+id/workoutNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Workouts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/numPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/postNum"
+        app:layout_constraintStart_toStartOf="@+id/postNum"
+        app:layout_constraintTop_toBottomOf="@+id/postNum" />
+
+    <TextView
+        android:id="@+id/numLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/likesNum"
+        app:layout_constraintStart_toStartOf="@+id/likesNum"
+        app:layout_constraintTop_toBottomOf="@+id/likesNum" />
+
+    <TextView
+        android:id="@+id/numWorkouts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/workoutNum"
+        app:layout_constraintStart_toStartOf="@+id/workoutNum"
+        app:layout_constraintTop_toBottomOf="@+id/workoutNum" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

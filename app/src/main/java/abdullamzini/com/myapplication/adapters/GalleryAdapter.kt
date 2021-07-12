@@ -45,7 +45,7 @@ class GalleryAdapter(private val context: Context, private val arrayList: ArrayL
         val imageView: ImageView = ImageView(context)
         imageView.layoutParams = AbsListView.LayoutParams(300, 300)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.setPadding(0, 0, 0, 0)
+        imageView.setPadding(60, 0, 0, 0)
         db.collection("posts").document(arrayList[position].toString()).get()
             .addOnSuccessListener { document ->
                 if(document != null) {

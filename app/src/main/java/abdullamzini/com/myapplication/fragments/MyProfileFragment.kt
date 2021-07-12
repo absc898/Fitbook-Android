@@ -7,10 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class MyProfileFragment : Fragment() {
 
@@ -18,6 +23,9 @@ class MyProfileFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var collectionReference: CollectionReference
 
+    private lateinit var profilePic: ImageView
+    private lateinit var numOfPosts: TextView
+    private lateinit var numOfLikes: TextView
     private lateinit var gridView: GridView
     var adapter: GalleryAdapter? = null
 
@@ -39,8 +47,25 @@ class MyProfileFragment : Fragment() {
 
         docRef.addSnapshotListener { snapshot, e ->
             if(snapshot != null) {
-                var currentDoc = snapshot.data;
                 posts = snapshot.data?.get("posts") as ArrayList<*>
+                val likes = snapshot.data?.get("likes") as ArrayList<*>
+                numOfLikes = requireView().findViewById(R.id.numLikes)
+                numOfPosts = requireView().findViewById(R.id.numPost)
+                profilePic = requireView().findViewById(R.id.profilePic)
+
+                numOfPosts.text = posts.size.toString()
+                numOfLikes.text = likes.size.toString()
+
+                val pathReference: StorageReference =
+                    FirebaseStorage.getInstance().reference.child("${auth.currentUser?.uid.toString()}/images/profilePic.jpg")
+                pathReference.downloadUrl.addOnSuccessListener {
+                    Glide.with(requireContext())
+                        .load(it)
+                        .into(profilePic)
+                }.addOnFailureListener {
+                    //Log.e("Image Download: ", it.message)
+                }
+
                 gridView = requireView().findViewById(R.id.gridOfImage)
                 adapter = GalleryAdapter(requireContext(), posts, auth.currentUser?.uid.toString())
                 gridView.adapter = adapter
