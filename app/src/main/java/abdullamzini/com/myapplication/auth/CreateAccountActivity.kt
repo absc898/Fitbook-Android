@@ -107,13 +107,13 @@ class CreateAccountActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if(task.isSuccessful) {
                     val user = auth.currentUser
-                    val profileUpdates = userProfileChangeRequest {
-                        displayName = name
-                        photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-                    }
                     if(filePath != null) {
                         val imageRef: StorageReference =
                             storageReference.child("${user?.uid}/images/profilePic.jpg")
+                        val profileUpdates = userProfileChangeRequest {
+                            displayName = name
+                            photoUri = Uri.parse(filePath.toString())
+                        }
                         imageRef.putFile(filePath!!).addOnSuccessListener {
                             user!!.updateProfile(profileUpdates)
                                 .addOnCompleteListener { task ->
@@ -129,10 +129,8 @@ class CreateAccountActivity : AppCompatActivity() {
                                             .call(data)
                                             .continueWith {
                                                 if (updatedUser != null) {
-                                                    Log.d(
-                                                        "UpdateProfile",
-                                                        "User profile updated with name ${updatedUser.displayName}"
-                                                    )
+                                                    Log.d("UpdateProfile", "User profile updated with name ${updatedUser.displayName}")
+                                                    finish()
                                                 }
                                             }
                                     }

@@ -2,10 +2,13 @@ package abdullamzini.com.myapplication.fragments
 
 import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.adapters.GalleryAdapter
+import abdullamzini.com.myapplication.auth.EditProfileActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
+
 class MyProfileFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
@@ -26,6 +30,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var profilePic: ImageView
     private lateinit var numOfPosts: TextView
     private lateinit var numOfLikes: TextView
+    private lateinit var editProfile: Button
     private lateinit var gridView: GridView
     var adapter: GalleryAdapter? = null
 
@@ -49,12 +54,18 @@ class MyProfileFragment : Fragment() {
             if(snapshot != null) {
                 posts = snapshot.data?.get("posts") as ArrayList<*>
                 val likes = snapshot.data?.get("likes") as ArrayList<*>
+                val name = snapshot.data?.get("name")
+                val phone = snapshot.data?.get("number")
+                val email = snapshot.data?.get("email")
                 numOfLikes = requireView().findViewById(R.id.numLikes)
                 numOfPosts = requireView().findViewById(R.id.numPost)
                 profilePic = requireView().findViewById(R.id.profilePic)
+                editProfile = requireView().findViewById(R.id.editButton)
+                var url = ""
 
                 numOfPosts.text = posts.size.toString()
                 numOfLikes.text = likes.size.toString()
+                profilePic.isDrawingCacheEnabled
 
                 val pathReference: StorageReference =
                     FirebaseStorage.getInstance().reference.child("${auth.currentUser?.uid.toString()}/images/profilePic.jpg")
@@ -62,6 +73,7 @@ class MyProfileFragment : Fragment() {
                     Glide.with(requireContext())
                         .load(it)
                         .into(profilePic)
+                    url = it.toString()
                 }.addOnFailureListener {
                     //Log.e("Image Download: ", it.message)
                 }
@@ -69,6 +81,17 @@ class MyProfileFragment : Fragment() {
                 gridView = requireView().findViewById(R.id.gridOfImage)
                 adapter = GalleryAdapter(requireContext(), posts, auth.currentUser?.uid.toString())
                 gridView.adapter = adapter
+
+
+                editProfile.setOnClickListener{
+                    val intent = Intent(requireContext(), EditProfileActivity::class.java)
+                    intent.putExtra("editName",  name.toString())
+                    intent.putExtra("editPhone", phone.toString())
+                    intent.putExtra("editEmail", email.toString())
+                    intent.putExtra("imageUri", url)
+                    requireContext().startActivity(intent)
+                }
+
             } else {
                 // Doc does not exist
             }

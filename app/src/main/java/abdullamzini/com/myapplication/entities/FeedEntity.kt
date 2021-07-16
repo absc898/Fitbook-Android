@@ -23,7 +23,7 @@ class FeedEntity {
         this.comments = comments
     }
 
-    fun getUsername(): String? {
+    fun getUsername(): String {
         return username
     }
 
