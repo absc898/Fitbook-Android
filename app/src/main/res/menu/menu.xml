@@ -10,6 +10,11 @@
         android:icon="@drawable/ic_baseline_add_post_24"
         android:title="pst"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/addWorkout"
+        android:icon="@drawable/ic_baseline_workout_add_24"
+        android:title="pst"
+        app:showAsAction="always"/>
 
 
 
