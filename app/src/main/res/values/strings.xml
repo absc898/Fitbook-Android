@@ -2,4 +2,11 @@
     <string name="app_name">Fitbook</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="workout_array">
+        <item>WeightLifting</item>
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Swimming</item>
+    </string-array>
 </resources>

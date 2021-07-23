@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.nightonke.boommenu.BoomButtons.SimpleCircleButton
+import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton
 import com.nightonke.boommenu.BoomMenuButton
 
 
@@ -34,21 +34,26 @@ class MainActivity : AppCompatActivity() {
 
         addButton = findViewById(R.id.bmb)
 
-//        for (i in 0 until addButton.buttonPlaceEnum.buttonNumber()) {
-//            addButton.addBuilder(
-//                SimpleCircleButton.Builder()
-//                    .normalImageRes(R.drawable.ic_baseline_workout_add_24)
-//            )
-//        }
-
         for (i in 0 until addButton.getPiecePlaceEnum().pieceNumber()) {
-            var image = R.drawable.ic_baseline_add_post_24
-            if(i == 0) {
-                image = R.drawable.ic_baseline_workout_add_24
+            var image = R.drawable.ic_baseline_camera_alt_24
+            var text = "Add Post"
+            if(i == 1) {
+                image = R.drawable.ic_baseline_sports_24
+                text = "Record Workout"
+            } else if (i == 2) {
+                image = R.drawable.ic_baseline_draw_24
+                text = "Add Activity"
             }
-            val builder = SimpleCircleButton.Builder().normalImageRes(image)
+            val builder = TextInsideCircleButton.Builder().normalText(text).normalImageRes(image)
                 .listener { index ->
                     // When the boom-button corresponding this builder is clicked.
+                    if(index == 0) {
+                        val intent = Intent(this, AddPostActivity::class.java)
+                        startActivity(intent)
+                    } else if(index == 1) {
+                        val intent = Intent(this, SelectWorkoutActivity::class.java)
+                        startActivity(intent)
+                    }
                     Toast.makeText(this, "Clicked $index", Toast.LENGTH_SHORT).show()
 
                 }

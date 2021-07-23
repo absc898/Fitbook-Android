@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitbook">
-        <activity android:name=".auth.EditProfileActivity"></activity>
+        <activity android:name=".workouts.RecordWeightLiftingActivity"></activity>
+        <activity android:name=".SelectWorkoutActivity" />
+        <activity android:name=".auth.EditProfileActivity" />
         <activity android:name=".CommentsActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".auth.LoginActivity">
