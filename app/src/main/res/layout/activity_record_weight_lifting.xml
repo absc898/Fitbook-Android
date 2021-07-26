@@ -6,28 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".workouts.RecordWeightLiftingActivity">
 
-<!--        <ScrollView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="32dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/addItemButton">-->
+    <!--        <ScrollView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="32dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/addItemButton">-->
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/entry_list"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical" />-->
-<!--        </ScrollView>-->
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/entry_list"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical" />-->
+    <!--        </ScrollView>-->
 
     <TableLayout
         android:id="@+id/tableList"
         android:layout_width="316dp"
         android:layout_height="463dp"
         android:stretchColumns="1"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addItemButton">
@@ -38,19 +37,20 @@
             app:layout_constraintTop_toBottomOf="@+id/addItemButton">
 
             <EditText
+                android:layout_width="wrap_content"
                 android:layout_gravity="bottom"
                 android:padding="3dip"
-                android:text="Bicep Curls"
-                android:layout_width="wrap_content"/>
+                android:text="Bicep Curls" />
 
             <EditText
-                android:layout_gravity="bottom"
                 android:layout_width="wrap_content"
+                android:layout_gravity="bottom"
                 android:gravity="right"
                 android:text="Bicep Curls" />
         </TableRow>
 
     </TableLayout>
+
     <Button
         android:id="@+id/pauseButton"
         android:layout_width="wrap_content"
@@ -100,7 +100,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewStopWatch"
-        app:layout_constraintVertical_bias="0.16000003" />
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:text="Finished"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewStopWatch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

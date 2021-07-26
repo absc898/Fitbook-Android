@@ -129,7 +129,8 @@ class CreateAccountActivity : AppCompatActivity() {
                                             .call(data)
                                             .continueWith {
                                                 if (updatedUser != null) {
-                                                    Log.d("UpdateProfile", "User profile updated with name ${updatedUser.displayName}")
+                                                    Log.d("UpdateProfile",
+                                                        "User profile updated with name ${updatedUser.displayName}")
                                                     finish()
                                                 }
                                             }
