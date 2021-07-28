@@ -6,50 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".workouts.RecordWeightLiftingActivity">
 
-    <!--        <ScrollView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="32dp"-->
-    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/addItemButton">-->
-
-    <!--            <LinearLayout-->
-    <!--                android:id="@+id/entry_list"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:orientation="vertical" />-->
-    <!--        </ScrollView>-->
-
-    <TableLayout
-        android:id="@+id/tableList"
-        android:layout_width="316dp"
-        android:layout_height="463dp"
-        android:stretchColumns="1"
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addItemButton">
+        app:layout_constraintTop_toBottomOf="@+id/addItemButton"
+        app:layout_constraintVertical_bias="0.01999998">
 
-        <TableRow
-            android:layout_gravity="bottom"
-            app:layout_constraintEnd_toStartOf="@+id/addItemButton"
+
+        <TableLayout
+            android:id="@+id/tableList"
+            android:layout_width="316dp"
+            android:layout_height="463dp"
+            android:stretchColumns="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addItemButton">
 
-            <EditText
-                android:layout_width="wrap_content"
+            <TableRow
                 android:layout_gravity="bottom"
-                android:padding="3dip"
-                android:text="Bicep Curls" />
+                app:layout_constraintEnd_toStartOf="@+id/addItemButton"
+                app:layout_constraintTop_toBottomOf="@+id/addItemButton">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="right"
-                android:text="Bicep Curls" />
-        </TableRow>
+<!--                <EditText-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_gravity="bottom"-->
+<!--                    android:padding="3dip"-->
+<!--                    android:text="Bicep Curls" />-->
 
-    </TableLayout>
+<!--                <EditText-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_gravity="bottom"-->
+<!--                    android:gravity="right"-->
+<!--                    android:text="Bicep Curls" />-->
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
 
     <Button
         android:id="@+id/pauseButton"

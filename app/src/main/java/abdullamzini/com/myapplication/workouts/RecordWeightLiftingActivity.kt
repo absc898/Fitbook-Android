@@ -31,6 +31,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class RecordWeightLiftingActivity : AppCompatActivity() {
@@ -105,7 +107,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
         }
 
         startTimer.setOnClickListener{
-            startTime = System.currentTimeMillis()
+            startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
             timer.base = SystemClock.elapsedRealtime() + stopTime
             timer.start()
             startTimer.visibility = View.GONE
@@ -122,41 +124,77 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
         add.setOnClickListener{
             val row: TableRow = LayoutInflater.from(this)
                 .inflate(R.layout.table_list_temp, null) as TableRow
-            (row.findViewById(R.id.attrib_name) as TextView).setText("bi")
-            (row.findViewById(R.id.attrib_value) as TextView).setText("100")
+            (row.findViewById(R.id.attrib_name) as EditText).hint = "Name"
+            (row.findViewById(R.id.attrib_set) as EditText).hint = "Sets"
+            (row.findViewById(R.id.attrib_reps) as EditText).hint = "Reps"
+            (row.findViewById(R.id.attrib_wight) as EditText).hint = "Weight"
             tableList.addView(row)
         }
 
         finishedButton.setOnClickListener{
-            val endTime = startTime + timer.base
+            val endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
             val workoutId = UUID.randomUUID().toString()
+            val movements: ArrayList<Map<String, String>> = ArrayList()
+            
+            for (i in 0..tableList.childCount) {
+                if(tableList.getChildAt(i) != null) {
+                    val viewChild: View = tableList.getChildAt(i)
+                    val rowChildParts = (viewChild as TableRow).childCount
+                    Log.i("ITEMS", "***************")
+                    if(rowChildParts == 4) {
+                        val movement: HashMap<String, String> = HashMap()
+                        val name = (viewChild.getChildAt(0) as EditText).text.toString()
+                        val sets = (viewChild.getChildAt(1) as EditText).text.toString()
+                        val reps = (viewChild.getChildAt(2) as EditText).text.toString()
+                        val weight = (viewChild.getChildAt(3) as EditText).text.toString()
+                        movement["name"] = name
+                        movement["sets"] = sets
+                        movement["reps"] = reps
+                        movement["weight"] = weight
+                        movements.add(movement)
+                        Log.i("ITEMS", "name: ${name}")
+                        Log.i("ITEMS", "set: ${sets}")
+                        Log.i("ITEMS", "reps: ${reps}")
+                        Log.i("ITEMS", "weight: ${weight}")
+                    }
+                }
+
+            }
+
+            Log.i("MAPS", "Size: ${movements.size}")
+            Log.i("TIMER", "Session time: ${timer.base}")
+            Log.i("TIMER", "Session End Time: $endTime")
+            Log.i("TIMER", "Session Start Time: $startTime")
+
             timer.stop()
 
             val session = Session.Builder()
-                .setName("WeightLifting Testing Abs")
+                .setName("Big Session")
                 .setIdentifier(workoutId)
                 .setDescription("Morning Session")
                 .setActivity(FitnessActivities.WEIGHTLIFTING)
-                .setStartTime(startTime, TimeUnit.MILLISECONDS)
-                .setEndTime(endTime, TimeUnit.MILLISECONDS)
+                .setStartTime(startTime, TimeUnit.SECONDS)
+                .setEndTime(endTime, TimeUnit.SECONDS)
                 .build()
 
             val insertRequest = SessionInsertRequest.Builder()
                 .setSession(session)
                 .build()
 
-
             Fitness.getSessionsClient(this, GoogleSignIn.getAccountForExtension(this, fitnessOptions))
                 .insertSession(insertRequest)
                 .addOnSuccessListener {
                     Log.i("TAG", "Session insert was successful!")
+
                     // ADD to Cloud Database now
                     val data = hashMapOf(
-                        "name" to "WeightLifting",
+                        "name" to "WEIGHTLIFTING",
                         "startTime" to startTime.toString(),
                         "endTime" to endTime.toString(),
+                        "duration" to endTime - startTime,
                         "id" to workoutId,
-                        "type" to FitnessActivities.WEIGHTLIFTING
+                        "type" to FitnessActivities.WEIGHTLIFTING,
+                        "movements" to movements,
                     )
                     functions.getHttpsCallable("addWorkout")
                         .call(data)
