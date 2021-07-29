@@ -6,37 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".workouts.RecordWeightLiftingActivity">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addItemButton"
-        app:layout_constraintVertical_bias="0.01999998">
-
-
-        <TableLayout
-            android:id="@+id/tableList"
-            android:layout_width="316dp"
-            android:layout_height="463dp"
-            android:stretchColumns="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addItemButton">
-
-            <TableRow
-                android:layout_gravity="bottom"
-                app:layout_constraintEnd_toStartOf="@+id/addItemButton"
-                app:layout_constraintTop_toBottomOf="@+id/addItemButton">
-
-            </TableRow>
-
-        </TableLayout>
-
-    </ScrollView>
-
 
     <Button
         android:id="@+id/pauseButton"
@@ -75,19 +44,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewStopWatch" />
-
-    <Button
-        android:id="@+id/addItemButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:layout_weight="1"
-        android:text="Add Item"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doneButton"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/doneButton"
