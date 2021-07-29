@@ -7,11 +7,12 @@ class WorkoutEntity {
     private lateinit var type: String
     private lateinit var workoutID: String
     private lateinit var workoutName: String
+    private lateinit var description: String
     private lateinit var movements: ArrayList<Map<String, String>>
 
     constructor()
 
-    constructor(length: Long, endTime:String, startTime: String, type: String, ID: String, name: String, movements: ArrayList<Map<String, String>>) {
+    constructor(length: Long, endTime:String, startTime: String, type: String, ID: String, name: String, des: String, movements: ArrayList<Map<String, String>>) {
         duration = length
         this.endTime = endTime
         this.startTime = startTime
@@ -19,6 +20,7 @@ class WorkoutEntity {
         this.workoutID = ID
         this.workoutName = name
         this.movements = movements
+        this.description = des
     }
 
     fun getDuration(): Long {
@@ -42,6 +44,10 @@ class WorkoutEntity {
 
     fun getWorkoutName() : String? {
         return workoutName
+    }
+
+    fun getDescription() : String? {
+        return description
     }
 
     fun getMovements() : ArrayList<Map<String, String>> {

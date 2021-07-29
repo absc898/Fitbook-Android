@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".workouts.DetailedWeightActivity">
+
+
+    <TextView
+        android:id="@+id/workoutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Title"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/workoutDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Date"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/workoutTitle"
+        app:layout_constraintStart_toStartOf="@+id/workoutTitle"
+        app:layout_constraintTop_toBottomOf="@+id/workoutTitle" />
+
+
+    <TextView
+        android:id="@+id/workoutDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Description"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/workoutTitle"
+        app:layout_constraintHorizontal_bias="0.57"
+        app:layout_constraintStart_toStartOf="@+id/workoutTitle"
+        app:layout_constraintTop_toBottomOf="@+id/workoutDate" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteButton"
+        app:layout_constraintVertical_bias="0.01999998">
+
+
+        <TableLayout
+            android:id="@+id/weightList"
+            android:layout_width="316dp"
+            android:layout_height="463dp"
+            android:stretchColumns="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addItemButton">
+
+            <TableRow
+                android:layout_gravity="bottom"
+                app:layout_constraintEnd_toStartOf="@+id/addItemButton"
+                app:layout_constraintTop_toBottomOf="@+id/addItemButton">
+
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Date:"
+        app:layout_constraintBaseline_toBaselineOf="@+id/workoutDate"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Description"
+        app:layout_constraintBaseline_toBaselineOf="@+id/workoutDescription"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Delete Workout"
+        app:layout_constraintEnd_toEndOf="@+id/workoutTitle"
+        app:layout_constraintStart_toStartOf="@+id/workoutTitle"
+        app:layout_constraintTop_toBottomOf="@+id/workoutDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,13 @@ package abdullamzini.com.myapplication.adapters
 
 import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.entities.WorkoutEntity
+import abdullamzini.com.myapplication.workouts.DetailedWeightActivity
+import android.content.Intent
 import android.os.Build
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -53,8 +54,16 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
         }
 
         holder.cardView.setOnClickListener{
-            Toast.makeText(holder.cardView.context,
-                "Item select: ${model.getWorkoutName()}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(holder.itemView.context, DetailedWeightActivity::class.java)
+            intent.putExtra("name", model.getWorkoutName())
+            intent.putExtra("id", model.getWorkoutID())
+            intent.putExtra("description", model.getDescription())
+            intent.putExtra("movements", model.getMovements())
+            intent.putExtra("startTime", date)
+            intent.putExtra("startTimeMill", model.getStartTime())
+            intent.putExtra("endTime", model.getEndTime())
+            intent.putExtra("type", model.getType())
+            holder.itemView.context.startActivity(intent)
         }
 
     }
