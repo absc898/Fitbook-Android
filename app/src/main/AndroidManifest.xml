@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitbook">
-        <activity android:name=".workouts.DetailedWeightActivity"></activity>
+        <activity android:name=".workouts.RecordBasketballActivity"></activity>
+        <activity android:name=".workouts.DetailedWeightActivity" />
         <activity android:name=".workouts.RecordRunningActivity" />
         <activity android:name=".workouts.RecordWeightLiftingActivity" />
         <activity android:name=".SelectWorkoutActivity" />

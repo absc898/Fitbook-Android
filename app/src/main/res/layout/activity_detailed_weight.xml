@@ -47,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/workoutDate" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,6 +76,67 @@
         </TableLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/homeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="120dp"
+        android:text="HOME"
+        android:textSize="34sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteButton"
+        app:layout_constraintVertical_bias="0.23000002" />
+
+    <TextView
+        android:id="@+id/awayView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="AWAY"
+        android:textSize="34sp"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/homeView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/deleteButton" />
+
+    <EditText
+        android:id="@+id/homePoints"
+        android:layout_width="120dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:visibility="gone"
+        android:inputType="number"
+        android:text="0"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/homeView"
+        app:layout_constraintStart_toStartOf="@+id/homeView"
+        app:layout_constraintTop_toBottomOf="@+id/homeView" />
+
+    <EditText
+        android:id="@+id/awayPoints"
+        android:layout_width="120dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0"
+        android:visibility="gone"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/awayView"
+        app:layout_constraintStart_toStartOf="@+id/awayView"
+        app:layout_constraintTop_toBottomOf="@+id/awayView" />
 
     <TextView
         android:id="@+id/textView3"

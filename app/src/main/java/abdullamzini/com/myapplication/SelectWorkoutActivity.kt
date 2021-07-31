@@ -1,5 +1,6 @@
 package abdullamzini.com.myapplication
 
+import abdullamzini.com.myapplication.workouts.RecordBasketballActivity
 import abdullamzini.com.myapplication.workouts.RecordRunningActivity
 import abdullamzini.com.myapplication.workouts.RecordWeightLiftingActivity
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.fitness.FitnessActivities
 
 class SelectWorkoutActivity : AppCompatActivity() {
 
@@ -38,6 +40,14 @@ class SelectWorkoutActivity : AppCompatActivity() {
                 startActivity(intent)
             } else if(selectedItem == "Running") {
                 val intent = Intent(this, RecordRunningActivity::class.java)
+                intent.putExtra("type", FitnessActivities.RUNNING)
+                startActivity(intent)
+            } else if(selectedItem == "Walking") {
+                val intent = Intent(this, RecordRunningActivity::class.java)
+                intent.putExtra("type", FitnessActivities.WALKING)
+                startActivity(intent)
+            } else if(selectedItem == "Basketball") {
+                val intent = Intent(this, RecordBasketballActivity::class.java)
                 startActivity(intent)
             }
         }

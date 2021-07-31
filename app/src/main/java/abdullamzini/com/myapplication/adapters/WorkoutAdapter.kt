@@ -35,7 +35,8 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: WorkoutAdapterVH, position: Int, model: WorkoutEntity) {
-        var movements = model.getMovements()
+        //var movements = model.getMovements()
+        var activityType = model.getType()
 
         val calendar = Calendar.getInstance(Locale.ENGLISH)
         calendar.timeInMillis = (model.getStartTime()?.toLong() ?: 0) * 1000L
@@ -47,10 +48,14 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
         holder.workoutName.text = model.getWorkoutName()
         holder.duration.text = duration
 
-        if(model.getType() == FitnessActivities.WEIGHTLIFTING) {
+        if(activityType == FitnessActivities.WEIGHTLIFTING) {
             holder.icon.setImageResource(R.drawable.ic_baseline_weight_24)
-        } else {
+        } else if (activityType == FitnessActivities.RUNNING) {
             holder.icon.setImageResource(R.drawable.ic_baseline_run_24)
+        } else if (activityType == FitnessActivities.WALKING) {
+            holder.icon.setImageResource(R.drawable.ic_baseline_nordic_walking_24)
+        } else if(activityType == FitnessActivities.BASKETBALL) {
+            holder.icon.setImageResource(R.drawable.ic_baseline_sports_basketball_24)
         }
 
         holder.cardView.setOnClickListener{
@@ -60,9 +65,9 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
             intent.putExtra("description", model.getDescription())
             intent.putExtra("movements", model.getMovements())
             intent.putExtra("startTime", date)
-            intent.putExtra("startTimeMill", model.getStartTime())
+            intent.putExtra("startTimeSeconds", model.getStartTime())
             intent.putExtra("endTime", model.getEndTime())
-            intent.putExtra("type", model.getType())
+            intent.putExtra("type", activityType)
             holder.itemView.context.startActivity(intent)
         }
 

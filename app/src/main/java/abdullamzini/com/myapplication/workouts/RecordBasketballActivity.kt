@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.fitness.Fitness
+import com.google.android.gms.fitness.FitnessActivities
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Session
@@ -33,13 +34,14 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-class RecordRunningActivity : AppCompatActivity() {
+class RecordBasketballActivity : AppCompatActivity() {
 
-    private lateinit var add: Button
     private lateinit var timer: Chronometer
     private lateinit var startTimer: Button
     private lateinit var pauseTime: Button
     private lateinit var finishedButton: Button
+    private lateinit var home: EditText
+    private lateinit var away: EditText
 
     private lateinit var functions: FirebaseFunctions
     private lateinit var fitnessOptions: FitnessOptions
@@ -49,13 +51,12 @@ class RecordRunningActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_record_running)
+        setContentView(R.layout.activity_record_basketball)
+
         var stopTime: Long = 0
         var startTime: Long = 0
 
         functions = Firebase.functions
-
-        val activityType = intent.getStringExtra("type")
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
             != PackageManager.PERMISSION_GRANTED) {
@@ -69,6 +70,8 @@ class RecordRunningActivity : AppCompatActivity() {
         pauseTime = findViewById(R.id.pauseButton)
         timer = findViewById(R.id.textViewStopWatch)
         finishedButton = findViewById(R.id.doneButton)
+        home = findViewById(R.id.homePoints)
+        away = findViewById(R.id.awayPoints)
 
         fitnessOptions = FitnessOptions.builder()
             .accessActivitySessions(FitnessOptions.ACCESS_WRITE)
@@ -101,7 +104,6 @@ class RecordRunningActivity : AppCompatActivity() {
             startTimer.visibility = View.VISIBLE
         }
 
-
         finishedButton.setOnClickListener{
             val li = LayoutInflater.from(applicationContext)
             val dialogView: View = li.inflate(R.layout.alert_dialog_workout, null)
@@ -113,6 +115,11 @@ class RecordRunningActivity : AppCompatActivity() {
             val workoutDescription = dialogView.findViewById(R.id.descriptionWorkout) as EditText
 
 
+            val movement: HashMap<String, String> = HashMap()
+            movement["home"] = home.text.toString()
+            movement["away"] = away.text.toString()
+            movements.add(movement)
+
             builder.setView(dialogView)
 
             // TODO:// https://www.journaldev.com/309/android-alert-dialog-using-kotlin
@@ -123,7 +130,7 @@ class RecordRunningActivity : AppCompatActivity() {
 
 
                 if(workoutName.text.isEmpty()) {
-                    workoutName.setText("$activityType Session")
+                    workoutName.setText("Basketball Session")
                 }
 
                 if(workoutDescription.text.isEmpty()) {
@@ -134,7 +141,7 @@ class RecordRunningActivity : AppCompatActivity() {
                     .setName("Fitbook " + workoutName.text.toString())
                     .setIdentifier(workoutId)
                     .setDescription(workoutDescription.text.toString())
-                    .setActivity(activityType)
+                    .setActivity(FitnessActivities.BASKETBALL)
                     .setStartTime(startTime, TimeUnit.SECONDS)
                     .setEndTime(endTime, TimeUnit.SECONDS)
                     .build()
@@ -156,7 +163,7 @@ class RecordRunningActivity : AppCompatActivity() {
                             "endTime" to endTime.toString(),
                             "duration" to endTime - startTime,
                             "id" to workoutId,
-                            "type" to activityType,
+                            "type" to FitnessActivities.BASKETBALL,
                             "movements" to movements,
                         )
                         functions.getHttpsCallable("addWorkout")
