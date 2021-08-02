@@ -51,7 +51,7 @@ class MyProfileFragment : Fragment() {
         var docRef = db.collection("users").document(auth.currentUser?.uid.toString())
 
         docRef.addSnapshotListener { snapshot, e ->
-            if(snapshot != null) {
+            if(snapshot != null && view != null) {
                 posts = snapshot.data?.get("posts") as ArrayList<*>
                 val likes = snapshot.data?.get("likes") as ArrayList<*>
                 val name = snapshot.data?.get("name")
@@ -91,7 +91,6 @@ class MyProfileFragment : Fragment() {
                     intent.putExtra("imageUri", url)
                     requireContext().startActivity(intent)
                 }
-
             } else {
                 // Doc does not exist
             }
