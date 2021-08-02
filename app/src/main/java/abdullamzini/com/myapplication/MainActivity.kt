@@ -3,6 +3,7 @@ package abdullamzini.com.myapplication
 import abdullamzini.com.myapplication.adapters.ViewPagerAdapter
 import abdullamzini.com.myapplication.fragments.FeedFragment
 import abdullamzini.com.myapplication.fragments.FitnessFragment
+import abdullamzini.com.myapplication.fragments.FriendsFragment
 import abdullamzini.com.myapplication.fragments.MyProfileFragment
 import android.content.Intent
 import android.os.Bundle
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragmentTabs(FeedFragment(), "Feed")
         adapter.addFragmentTabs(FitnessFragment(), "Workout")
+        adapter.addFragmentTabs(FriendsFragment(), "Friends")
         adapter.addFragmentTabs(MyProfileFragment(), "Profile")
 
         viewPager.adapter = adapter
@@ -93,8 +95,8 @@ class MainActivity : AppCompatActivity() {
         // set the icons to be used for each tab
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_baseline_feed_24)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_baseline_sports_24)
-        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_baseline_person_24)
-//        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_drivers_24)
-//        tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_package_24)
+        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_baseline_friends_24)
+        tabLayout.getTabAt(3)!!.setIcon(R.drawable.ic_baseline_person_24)
+
     }
 }
