@@ -1,8 +1,10 @@
 package abdullamzini.com.myapplication.adapters
 
+import abdullamzini.com.myapplication.DetailedFriendActivity
 import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.entities.FriendsEntity
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,7 +42,6 @@ class FriendsAdapter (private val status: String, private val context: Context, 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FriendsAdapterVH, position: Int, model: FriendsEntity) {
         if(auth.currentUser!!.uid != model.getID() && model.getName() != null) {
-
             if(status != "All") {
                 holder.request.isEnabled = false
                 holder.request.visibility = View.GONE
@@ -114,6 +115,16 @@ class FriendsAdapter (private val status: String, private val context: Context, 
                             Toast.LENGTH_SHORT).show()
 
                     }
+            }
+
+            holder.cardView.setOnClickListener{
+                if(status == "Friends") {
+                    val intent = Intent(context, DetailedFriendActivity::class.java)
+                    intent.putExtra("friendId", model.getID())
+                    context.startActivity(intent)
+                    Toast.makeText(context, "Loading Friend...",
+                        Toast.LENGTH_SHORT).show()
+                }
             }
 
         } else {

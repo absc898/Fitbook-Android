@@ -98,12 +98,6 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.addPost -> {
-            val intent = Intent(this, AddPostActivity::class.java)
-            startActivity(intent)
-            true
-        }
-
         R.id.sync -> {
             syncGoogleFit()
             true
@@ -203,6 +197,7 @@ class MainActivity : AppCompatActivity() {
                             .continueWith {
                                 Log.d("WORKOUT",
                                     "Added Workout!")
+
                             }
                     }
 
@@ -218,7 +213,6 @@ class MainActivity : AppCompatActivity() {
                             .call(data)
                             .continueWith {
                                 Log.d("WORKOUT", "Deleted Workout!")
-                                finish()
                             }
                     }
                 }

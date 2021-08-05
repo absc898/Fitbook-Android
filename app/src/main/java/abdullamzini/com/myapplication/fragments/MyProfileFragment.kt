@@ -5,6 +5,7 @@ import abdullamzini.com.myapplication.adapters.GalleryAdapter
 import abdullamzini.com.myapplication.auth.EditProfileActivity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var profilePic: ImageView
     private lateinit var numOfPosts: TextView
     private lateinit var numOfLikes: TextView
+    private lateinit var numOfWorkouts: TextView
     private lateinit var editProfile: Button
     private lateinit var gridView: GridView
     var adapter: GalleryAdapter? = null
@@ -59,6 +61,7 @@ class MyProfileFragment : Fragment() {
                 val email = snapshot.data?.get("email")
                 numOfLikes = requireView().findViewById(R.id.numLikes)
                 numOfPosts = requireView().findViewById(R.id.numPost)
+                numOfWorkouts = requireView().findViewById(R.id.numWorkouts)
                 profilePic = requireView().findViewById(R.id.profilePic)
                 editProfile = requireView().findViewById(R.id.editButton)
                 var url = ""
@@ -66,6 +69,15 @@ class MyProfileFragment : Fragment() {
                 numOfPosts.text = posts.size.toString()
                 numOfLikes.text = likes.size.toString()
                 profilePic.isDrawingCacheEnabled
+
+                db.collection("users").document(auth.currentUser?.uid.toString()).collection("workouts")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        numOfWorkouts.text = result.size().toString()
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("WORKOUTS", "Error getting workouts.", exception)
+                    }
 
                 val pathReference: StorageReference =
                     FirebaseStorage.getInstance().reference.child("${auth.currentUser?.uid.toString()}/images/profilePic.jpg")
