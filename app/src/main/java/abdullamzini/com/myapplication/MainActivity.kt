@@ -1,6 +1,7 @@
 package abdullamzini.com.myapplication
 
 import abdullamzini.com.myapplication.adapters.ViewPagerAdapter
+import abdullamzini.com.myapplication.auth.LoginActivity
 import abdullamzini.com.myapplication.fragments.FeedFragment
 import abdullamzini.com.myapplication.fragments.FitnessFragment
 import abdullamzini.com.myapplication.fragments.FriendsFragment
@@ -100,6 +101,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.sync -> {
             syncGoogleFit()
+            true
+        }
+
+        R.id.logout -> {
+            auth.signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
             true
         }
 

@@ -6,9 +6,14 @@
     <item
         android:id="@+id/sync"
         android:icon="@drawable/ic_baseline_sync_24"
-        android:title="pst"
+        android:title="sync"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="logout"
+        app:showAsAction="always"/>
 
 
 </menu>

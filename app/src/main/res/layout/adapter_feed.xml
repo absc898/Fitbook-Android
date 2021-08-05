@@ -39,7 +39,6 @@
             android:layout_height="wrap_content"
             app:icon_size="10dp"
             app:icon_type="heart"
-            app:liked="false"
             app:layout_constraintBottom_toTopOf="@+id/comments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"

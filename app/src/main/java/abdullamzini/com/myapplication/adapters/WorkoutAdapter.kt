@@ -53,7 +53,7 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
         } else if (activityType == FitnessActivities.RUNNING) {
             holder.icon.setImageResource(R.drawable.ic_baseline_run_24)
         } else if (activityType == FitnessActivities.WALKING) {
-            holder.icon.setImageResource(R.drawable.ic_baseline_nordic_walking_24)
+            holder.icon.setImageResource(R.drawable.ic_baseline_directions_walk_24)
         } else if(activityType == FitnessActivities.BASKETBALL) {
             holder.icon.setImageResource(R.drawable.ic_baseline_sports_basketball_24)
         }

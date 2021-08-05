@@ -13,23 +13,26 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.fragment_fitness.*
 
 
 class FitnessFragment : Fragment() {
 
-    var siteAdapter: WorkoutAdapter? = null
+    var workoutAdapter: WorkoutAdapter? = null
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var collectionReference: CollectionReference
+    private lateinit var query: Query
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        collectionReference = db.collection("users").document(auth.currentUser?.uid.toString()).collection("workouts")
+        query = db.collection("users").document(auth.currentUser?.uid.toString()).collection("workouts")
+            .orderBy("startTime", Query.Direction.DESCENDING)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,28 +47,26 @@ class FitnessFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        // Query
-        val query : CollectionReference = collectionReference
         val options = FirestoreRecyclerOptions.Builder<WorkoutEntity>()
             .setQuery(query, WorkoutEntity::class.java)
             .setLifecycleOwner(this)
             .build()
 
-        siteAdapter = WorkoutAdapter(options)
+        workoutAdapter = WorkoutAdapter(options)
 
         workoutLists.layoutManager = LinearLayoutManager(activity)
-        workoutLists.adapter = siteAdapter
+        workoutLists.adapter = workoutAdapter
     }
 
     override fun onStart() {
         super.onStart()
-        siteAdapter!!.startListening()
+        workoutAdapter!!.startListening()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(siteAdapter != null) {
-            siteAdapter!!.stopListening()
+        if(workoutAdapter != null) {
+            workoutAdapter!!.stopListening()
         }
     }
 }

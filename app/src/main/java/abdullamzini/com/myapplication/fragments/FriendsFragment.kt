@@ -35,6 +35,8 @@ class FriendsFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         query = db.collection("users")
+            .whereNotEqualTo("ID", auth.currentUser!!.uid.toString())
+
     }
 
     override fun onCreateView(
@@ -57,10 +59,12 @@ class FriendsFragment : Fragment() {
                 radioButton = view.findViewById(checkedId)
                 if(radioButton.text == "All") {
                     query = db.collection("users")
+                        .whereNotEqualTo("ID", auth.currentUser!!.uid.toString())
                     setUpRecyclerView(query, radioButton.text.toString())
                 } else {
                     query = db.collection("users").document(auth.currentUser!!.uid.toString()).collection("friends")
                         .whereEqualTo("status", radioButton.text)
+                        .whereNotEqualTo("ID", auth.currentUser!!.uid.toString())
                     setUpRecyclerView(query, radioButton.text.toString())
                 }
 

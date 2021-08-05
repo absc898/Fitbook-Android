@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -12,9 +13,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.Timestamp.now
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
@@ -23,6 +24,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 class AddPostActivity : AppCompatActivity() {
@@ -122,6 +125,7 @@ class AddPostActivity : AppCompatActivity() {
         return Uri.parse(path)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun preparePost() {
         val postDetails: String = postDetails.text.toString()
         val user = auth.currentUser
@@ -132,7 +136,7 @@ class AddPostActivity : AppCompatActivity() {
             "username" to (user?.displayName ?: "unknown"),
             "postDetails" to postDetails,
             "photoID" to uniqueImageIDName,
-            "date" to now().toString()
+            "date" to LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
         )
 
         val imageRef: StorageReference = storageReference.child("${user?.uid}/posts/$uniqueImageIDName.jpg")

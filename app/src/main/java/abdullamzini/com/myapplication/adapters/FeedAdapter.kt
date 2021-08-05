@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -43,7 +44,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         val comments = model.getComments()
         val list = ArrayList<Map<String, String>>(comments)
         val ID = model.getID()
-        val userID = model.getUserID()
+        val postUserID = model.getUserID()
         val photoID = model.getPhotoID()
         val likes = model.getUserLikesIds()
 
@@ -55,7 +56,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         }
 
         val pathReference: StorageReference =
-            FirebaseStorage.getInstance().reference.child("${userID}/posts/${photoID}.jpg")
+            FirebaseStorage.getInstance().reference.child("${postUserID}/posts/${photoID}.jpg")
         pathReference.downloadUrl.addOnSuccessListener {
             Glide.with(holder.postDetails.context)
                 .load(it)
@@ -64,9 +65,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
             //Log.e("Image Download: ", it.message)
         }
         if (likes != null) {
-            if(userID.toString() in likes) {
-                holder.likesButton.isLiked = true
-            }
+            holder.likesButton.isLiked = Firebase.auth.currentUser!!.uid.toString() in likes
 
                 holder.likesButton.setOnLikeListener(object : OnLikeListener {
                     override fun liked(likeButton: LikeButton) {
@@ -74,11 +73,12 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
                             "ID" to ID,
                             "status" to "true",
                         )
+                        //holder.likesButton.isEnabled = false
                         Firebase.functions.getHttpsCallable("handleLikes")
                             .call(like)
                             .continueWith {
                             }
-                        holder.likesButton.isLiked = true;
+
                     }
 
                     override fun unLiked(likeButton: LikeButton) {
@@ -86,11 +86,13 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
                             "ID" to ID,
                             "status" to "false",
                         )
+
                         Firebase.functions.getHttpsCallable("handleLikes")
                             .call(like)
                             .continueWith {
+                                //holder.likesButton.isLiked = false
                             }
-                        holder.likesButton.isLiked = false;
+
                     }
                 })
         }

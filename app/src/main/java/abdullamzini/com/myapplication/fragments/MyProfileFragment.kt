@@ -54,7 +54,9 @@ class MyProfileFragment : Fragment() {
 
         docRef.addSnapshotListener { snapshot, e ->
             if(snapshot != null && view != null) {
-                posts = snapshot.data?.get("posts") as ArrayList<*>
+                if(snapshot.data?.get("posts") != null) {
+                    posts = snapshot.data?.get("posts") as ArrayList<*>
+                }
                 val likes = snapshot.data?.get("likes") as ArrayList<*>
                 val name = snapshot.data?.get("name")
                 val phone = snapshot.data?.get("number")
@@ -86,8 +88,9 @@ class MyProfileFragment : Fragment() {
                         .load(it)
                         .into(profilePic)
                     url = it.toString()
-                }.addOnFailureListener {
-                    //Log.e("Image Download: ", it.message)
+                }.addOnFailureListener { it
+                    Log.e("Image Download: ", it.message.toString())
+                    profilePic.setImageResource(R.drawable.ic_baseline_person_24)
                 }
 
                 gridView = requireView().findViewById(R.id.gridOfImage)

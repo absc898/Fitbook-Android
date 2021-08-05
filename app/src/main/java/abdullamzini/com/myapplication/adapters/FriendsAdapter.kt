@@ -65,8 +65,9 @@ class FriendsAdapter (private val status: String, private val context: Context, 
                 Glide.with(context)
                     .load(it)
                     .into(holder.friendsImage)
-            }.addOnFailureListener {
-                //Log.e("Image Download: ", it.message)
+            }.addOnFailureListener { it
+                Log.e("Image Download: ", it.message.toString())
+                holder.friendsImage.setImageResource(R.drawable.ic_baseline_person_24)
             }
 
             holder.request.setOnClickListener{
@@ -127,13 +128,7 @@ class FriendsAdapter (private val status: String, private val context: Context, 
                 }
             }
 
-        } else {
-            // TODO: FIX THIS
-            holder.cardView.isEnabled = false
-            holder.cardView.isClickable = false
-            holder.cardView.visibility = View.GONE
         }
-
     }
 
     class FriendsAdapterVH(itemView: View) : RecyclerView.ViewHolder(itemView) {

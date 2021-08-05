@@ -1,5 +1,6 @@
 package abdullamzini.com.myapplication.auth
 
+import abdullamzini.com.myapplication.MainActivity
 import abdullamzini.com.myapplication.R
 import android.content.Intent
 import android.net.Uri
@@ -131,6 +132,7 @@ class CreateAccountActivity : AppCompatActivity() {
                                                 if (updatedUser != null) {
                                                     Log.d("UpdateProfile",
                                                         "User profile updated with name ${updatedUser.displayName}")
+                                                    startActivity(Intent(this, MainActivity::class.java))
                                                     finish()
                                                 }
                                             }
