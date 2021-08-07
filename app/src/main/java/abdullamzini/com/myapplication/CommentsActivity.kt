@@ -2,18 +2,21 @@ package abdullamzini.com.myapplication
 
 import abdullamzini.com.myapplication.adapters.CommentAdapter
 import abdullamzini.com.myapplication.entities.CommentEntity
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.Timestamp.now
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class CommentsActivity : AppCompatActivity() {
 
@@ -26,6 +29,7 @@ class CommentsActivity : AppCompatActivity() {
     var arrayList: ArrayList<CommentEntity> = ArrayList()
     var adapter: CommentAdapter? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
@@ -56,7 +60,7 @@ class CommentsActivity : AppCompatActivity() {
                     "userID" to (user?.uid ?: "Unknown"),
                     "username" to (user?.displayName ?: "Unknown"),
                     "postDetails" to comment.toString(),
-                    "timeStamp" to now().toString()
+                    "timeStamp" to LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond().toString()
                 )
 
                 functions.getHttpsCallable("addComment")
