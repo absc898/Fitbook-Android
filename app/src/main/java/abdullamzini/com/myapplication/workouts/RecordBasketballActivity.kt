@@ -9,10 +9,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.Chronometer
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +39,7 @@ class RecordBasketballActivity : AppCompatActivity() {
     private lateinit var finishedButton: Button
     private lateinit var home: EditText
     private lateinit var away: EditText
+    private lateinit var loadingBar: ProgressBar
 
     private lateinit var functions: FirebaseFunctions
     private lateinit var fitnessOptions: FitnessOptions
@@ -72,6 +70,7 @@ class RecordBasketballActivity : AppCompatActivity() {
         finishedButton = findViewById(R.id.doneButton)
         home = findViewById(R.id.homePoints)
         away = findViewById(R.id.awayPoints)
+        loadingBar = findViewById(R.id.loadingBar)
 
         fitnessOptions = FitnessOptions.builder()
             .accessActivitySessions(FitnessOptions.ACCESS_WRITE)
@@ -126,6 +125,7 @@ class RecordBasketballActivity : AppCompatActivity() {
             builder.setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(applicationContext,
                     "Please wait", Toast.LENGTH_SHORT).show()
+                loadingBar.visibility = View.VISIBLE
                 timer.stop()
 
 
@@ -171,6 +171,7 @@ class RecordBasketballActivity : AppCompatActivity() {
                             .continueWith {
                                 Log.d("WORKOUT",
                                     "Added Workout!")
+                                loadingBar.visibility = View.INVISIBLE
                                 finish()
                             }
 

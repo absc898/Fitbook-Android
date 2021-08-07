@@ -70,9 +70,6 @@ class MainActivity : AppCompatActivity() {
             if(i == 1) {
                 image = R.drawable.ic_baseline_sports_24
                 text = "Record Workout"
-            } else if (i == 2) {
-                image = R.drawable.ic_baseline_draw_24
-                text = "Add Activity"
             }
             val builder = TextInsideCircleButton.Builder().normalText(text).normalImageRes(image)
                 .listener { index ->
@@ -84,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(this, SelectWorkoutActivity::class.java)
                         startActivity(intent)
                     }
-                    Toast.makeText(this, "Clicked $index", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, "Clicked $index", Toast.LENGTH_SHORT).show()
 
                 }
             addButton.addBuilder(builder)
@@ -100,12 +97,14 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.sync -> {
+            Toast.makeText(this, "Syncing in background", Toast.LENGTH_SHORT).show()
             syncGoogleFit()
             true
         }
 
         R.id.logout -> {
             auth.signOut()
+            finish()
             startActivity(Intent(this, LoginActivity::class.java))
             true
         }
@@ -137,6 +136,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun syncGoogleFit() {
+
         val workoutIds = arrayListOf<String>()
         val sessionIds = arrayListOf<String>()
         val docRef = db.collection("users").document(auth.currentUser!!.uid.toString()).collection("workouts")

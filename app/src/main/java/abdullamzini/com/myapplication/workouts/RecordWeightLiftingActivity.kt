@@ -45,6 +45,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
     private lateinit var startTimer: Button
     private lateinit var pauseTime: Button
     private lateinit var finishedButton: Button
+    private lateinit var loadingBar: ProgressBar
 
     private lateinit var functions: FirebaseFunctions
     private lateinit var fitnessOptions: FitnessOptions
@@ -75,23 +76,12 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
         timer = findViewById(R.id.textViewStopWatch)
         tableList = findViewById(R.id.tableList)
         finishedButton = findViewById(R.id.doneButton)
+        loadingBar = findViewById(R.id.loadingBar)
 
         fitnessOptions = FitnessOptions.builder()
             .accessActivitySessions(FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_WEIGHT,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_WORKOUT_EXERCISE,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_MOVE_MINUTES,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_DISTANCE_DELTA,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_LOCATION_SAMPLE,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_POWER_SAMPLE,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_STEP_COUNT_CADENCE,FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_SPEED, FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_LOCATION_SAMPLE, FitnessOptions.ACCESS_WRITE)
             .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_WRITE)
             .addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_WRITE)
-            .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_WRITE)
             .build()
 
         val account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
@@ -168,6 +158,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
             builder.setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(applicationContext,
                     "Please wait", Toast.LENGTH_SHORT).show()
+                loadingBar.visibility = View.VISIBLE
                 timer.stop()
 
 
@@ -218,6 +209,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
                             .continueWith {
                                 Log.d("WORKOUT",
                                     "Added Workout!")
+                                loadingBar.visibility = View.INVISIBLE
                                 finish()
                             }
 

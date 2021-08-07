@@ -31,7 +31,9 @@ class FitnessFragment : Fragment() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        query = db.collection("users").document(auth.currentUser?.uid.toString()).collection("workouts")
+        query = db.collection("users")
+            .document(auth.currentUser?.uid.toString())
+            .collection("workouts")
             .orderBy("startTime", Query.Direction.DESCENDING)
     }
 

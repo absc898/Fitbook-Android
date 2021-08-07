@@ -56,7 +56,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
         }
 
         val pathReference: StorageReference =
-            FirebaseStorage.getInstance().reference.child("${postUserID}/posts/${photoID}.jpg")
+            FirebaseStorage.getInstance().reference.child("${postUserID}/posts/image@256_${photoID}.jpg")
         pathReference.downloadUrl.addOnSuccessListener {
             Glide.with(holder.postDetails.context)
                 .load(it)

@@ -35,8 +35,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="50dp"
         app:bmb_buttonEnum="textInsideCircle"
-        app:bmb_piecePlaceEnum="piecePlace_dot_3_1"
-        app:bmb_buttonPlaceEnum="buttonPlace_sc_3_3"
+        app:bmb_piecePlaceEnum="piecePlace_dot_2_1"
+        app:bmb_buttonPlaceEnum="buttonPlace_sc_2_2"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent" />
 

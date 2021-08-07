@@ -64,7 +64,6 @@ class FriendsFragment : Fragment() {
                 } else {
                     query = db.collection("users").document(auth.currentUser!!.uid.toString()).collection("friends")
                         .whereEqualTo("status", radioButton.text)
-                        .whereNotEqualTo("ID", auth.currentUser!!.uid.toString())
                     setUpRecyclerView(query, radioButton.text.toString())
                 }
 

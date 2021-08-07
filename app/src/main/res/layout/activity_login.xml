@@ -49,12 +49,12 @@
         android:layout_marginTop="8dp"
         android:autoLink="all"
         android:clickable="true"
+        android:focusable="true"
         android:text="Forgot password?"
         android:textColorLink="#2196F3"
         app:layout_constraintEnd_toEndOf="@+id/loginPassword"
         app:layout_constraintStart_toStartOf="@+id/loginPassword"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
     <TextView
         android:id="@+id/newUsers"
@@ -62,19 +62,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:clickable="true"
-        android:text="New user?"
+        android:focusable="true"
+        android:text="@string/new_user"
+        android:textColor="#2196F3"
         app:layout_constraintEnd_toEndOf="@+id/forgotPassword"
         app:layout_constraintStart_toStartOf="@+id/forgotPassword"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
 
-    <Button
+
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/googleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="16dp"
-        android:text="Google Sign In"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/loginButton"
+        app:layout_constraintStart_toStartOf="@+id/loginButton"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

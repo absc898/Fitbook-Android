@@ -1,6 +1,7 @@
 package abdullamzini.com.myapplication.auth
 
 import abdullamzini.com.myapplication.R
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,12 +15,16 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var functions: FirebaseFunctions
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageReference: StorageReference
 
     private lateinit var editName: EditText
     private lateinit var editPhone: EditText
@@ -29,12 +34,17 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var saveButton: Button
     private lateinit var passwordButton: Button
 
+    private var filePath: Uri? = null
+    private val PICK_IMAGE_REQUEST = 71
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
         auth = FirebaseAuth.getInstance()
         functions = Firebase.functions
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
 
         val editTextName = intent.getStringExtra("editName")
         val url = Uri.parse(intent.getStringExtra("imageUri"))
@@ -51,10 +61,13 @@ class EditProfileActivity : AppCompatActivity() {
         editPhone.setText(intent.getStringExtra("editPhone"))
         editEmail.setText(intent.getStringExtra("editEmail"))
 
-        Glide.with(this)
-            .load(url)
-            .into(editProfilePic)
-
+        if(url.toString() != "") {
+            Glide.with(this)
+                .load(url)
+                .into(editProfilePic)
+        } else {
+            editProfilePic.setImageResource(R.drawable.ic_baseline_person_24)
+        }
 
         saveButton.setOnClickListener {
             val user = auth.currentUser
@@ -64,6 +77,11 @@ class EditProfileActivity : AppCompatActivity() {
             user!!.updateProfile(profileUpdate)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        if(filePath != null) {
+                            val imageRef: StorageReference =
+                                storageReference.child("${user?.uid}/images/profilePic.jpg")
+                            imageRef.putFile(filePath!!)
+                        }
                         val updatedUser = auth.currentUser
                         val data = hashMapOf(
                             "name" to (updatedUser?.displayName ?: "empty"),
@@ -96,5 +114,24 @@ class EditProfileActivity : AppCompatActivity() {
                 }
         }
 
+        editProfilePic.setOnClickListener{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select a building site Image"),
+                PICK_IMAGE_REQUEST
+            )
+        }
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            filePath = data?.data
+            editProfilePic.setImageURI(filePath)
+        }
     }
 }

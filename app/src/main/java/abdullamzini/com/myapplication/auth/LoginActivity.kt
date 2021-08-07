@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var usernameField: EditText
     private lateinit var passwordField: EditText
     private lateinit var loginButton: Button
-    private lateinit var googleButton: Button
+    private lateinit var googleButton: SignInButton
     private lateinit var createAccountText: TextView
     private lateinit var forgotPassText: TextView
     private lateinit var googleSignInClient: GoogleSignInClient

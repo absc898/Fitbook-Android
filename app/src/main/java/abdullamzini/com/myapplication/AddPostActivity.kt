@@ -9,10 +9,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +36,7 @@ class AddPostActivity : AppCompatActivity() {
     private lateinit var postDetails: EditText
     private lateinit var addPhoto: Button
     private lateinit var postImage: ImageView
+    private lateinit var loadingBar: ProgressBar
 
     private var filePath: Uri? = null
     private val PICK_IMAGE_REQUEST = 71
@@ -56,7 +55,7 @@ class AddPostActivity : AppCompatActivity() {
         postDetails = findViewById(R.id.postDetails)
         addPhoto = findViewById(R.id.postAddPhoto)
         postImage = findViewById(R.id.postImage)
-
+        loadingBar = findViewById(R.id.loadingBar)
 
         addPhoto.setOnClickListener{
             val options = arrayOf("Gallery", "Camera", "Workout")
@@ -87,9 +86,11 @@ class AddPostActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.upload -> {
             if(filePath != null){
+                loadingBar.visibility = View.VISIBLE
                 preparePost()
             } else {
                 Toast.makeText(baseContext, "Please select an photo for your post",
@@ -144,6 +145,7 @@ class AddPostActivity : AppCompatActivity() {
             functions.getHttpsCallable("addPost")
                 .call(post)
                 .continueWith {
+                    loadingBar.visibility = View.INVISIBLE
                     Toast.makeText(baseContext, "Image upload",
                         Toast.LENGTH_SHORT).show()
                     finish()

@@ -9,10 +9,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.Chronometer
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -35,11 +32,11 @@ import kotlin.collections.ArrayList
 
 class RecordRunningActivity : AppCompatActivity() {
 
-    private lateinit var add: Button
     private lateinit var timer: Chronometer
     private lateinit var startTimer: Button
     private lateinit var pauseTime: Button
     private lateinit var finishedButton: Button
+    private lateinit var loadingBar: ProgressBar
 
     private lateinit var functions: FirebaseFunctions
     private lateinit var fitnessOptions: FitnessOptions
@@ -69,6 +66,7 @@ class RecordRunningActivity : AppCompatActivity() {
         pauseTime = findViewById(R.id.pauseButton)
         timer = findViewById(R.id.textViewStopWatch)
         finishedButton = findViewById(R.id.doneButton)
+        loadingBar = findViewById(R.id.loadingBar)
 
         fitnessOptions = FitnessOptions.builder()
             .accessActivitySessions(FitnessOptions.ACCESS_WRITE)
@@ -119,6 +117,7 @@ class RecordRunningActivity : AppCompatActivity() {
             builder.setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(applicationContext,
                     "Please wait", Toast.LENGTH_SHORT).show()
+                loadingBar.visibility = View.VISIBLE
                 timer.stop()
 
 
@@ -164,6 +163,7 @@ class RecordRunningActivity : AppCompatActivity() {
                             .continueWith {
                                 Log.d("WORKOUT",
                                     "Added Workout!")
+                                loadingBar.visibility = View.INVISIBLE
                                 finish()
                             }
 

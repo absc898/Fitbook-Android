@@ -7,10 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -37,6 +35,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private lateinit var submitBtn: Button
     private lateinit var imageBtn: Button
     private lateinit var imageView: ImageView
+    private lateinit var loadingBar: ProgressBar
 
     // Image select var
     private var filePath: Uri? = null
@@ -59,6 +58,7 @@ class CreateAccountActivity : AppCompatActivity() {
         submitBtn = findViewById(R.id.submitBtn)
         imageBtn = findViewById(R.id.imageSelectButton)
         imageView = findViewById(R.id.imageView)
+        loadingBar = findViewById(R.id.loadingBar)
 
         imageBtn.setOnClickListener {
             selectImage()
@@ -69,6 +69,7 @@ class CreateAccountActivity : AppCompatActivity() {
             val mail: String = email.text.toString()
             val pass: String = password.text.toString()
             val phone: String = phone.text.toString()
+            loadingBar.visibility = View.VISIBLE
 
             if (TextUtils.isEmpty(name) && TextUtils.isEmpty(mail) && TextUtils.isEmpty((pass))) { // check to see if the email or password field is blank
                 email.error = "Please enter e-mail address"
@@ -132,6 +133,7 @@ class CreateAccountActivity : AppCompatActivity() {
                                                 if (updatedUser != null) {
                                                     Log.d("UpdateProfile",
                                                         "User profile updated with name ${updatedUser.displayName}")
+                                                    loadingBar.visibility = View.INVISIBLE
                                                     startActivity(Intent(this, MainActivity::class.java))
                                                     finish()
                                                 }
