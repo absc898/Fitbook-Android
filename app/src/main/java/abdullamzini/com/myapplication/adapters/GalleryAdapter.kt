@@ -16,7 +16,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
-class GalleryAdapter(private val context: Context, private val arrayList: ArrayList<*>, private val uid: String) : BaseAdapter() {
+class GalleryAdapter(private val context: Context, private val arrayList: ArrayList<*>) : BaseAdapter() {
 
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -50,6 +50,7 @@ class GalleryAdapter(private val context: Context, private val arrayList: ArrayL
             .addOnSuccessListener { document ->
                 if(document != null) {
                     var imageID =  document.data?.get("photoID").toString()
+                    var uid =  document.data?.get("userID").toString()
                     val pathReference: StorageReference =
                         FirebaseStorage.getInstance().reference.child("${uid}/posts/${imageID}.jpg")
                     pathReference.downloadUrl.addOnSuccessListener {

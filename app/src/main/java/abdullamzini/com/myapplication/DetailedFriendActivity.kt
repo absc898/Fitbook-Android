@@ -48,7 +48,7 @@ class DetailedFriendActivity : AppCompatActivity() {
                     val posts = data?.get("posts") as ArrayList<String>
                     postNum.text = posts.size.toString()
 
-                    adapter = GalleryAdapter(this, posts, friendId.toString())
+                    adapter = GalleryAdapter(this, posts)
                     gridView.adapter = adapter
 
                     db.collection("users").document(friendId!!).collection("workouts")

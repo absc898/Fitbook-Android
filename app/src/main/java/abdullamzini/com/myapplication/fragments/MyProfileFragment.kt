@@ -9,10 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -34,9 +31,12 @@ class MyProfileFragment : Fragment() {
     private lateinit var numOfWorkouts: TextView
     private lateinit var editProfile: Button
     private lateinit var gridView: GridView
+    private lateinit var radioGroup: RadioGroup
+    private lateinit var radioButton: RadioButton
     var adapter: GalleryAdapter? = null
 
     private lateinit var posts: ArrayList<*>
+    private lateinit var likes: ArrayList<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class MyProfileFragment : Fragment() {
                 if(snapshot.data?.get("posts") != null) {
                     posts = snapshot.data?.get("posts") as ArrayList<*>
                 }
-                val likes = snapshot.data?.get("likes") as ArrayList<*>
+                likes = snapshot.data?.get("likes") as ArrayList<*>
                 val name = snapshot.data?.get("name")
                 val phone = snapshot.data?.get("number")
                 val email = snapshot.data?.get("email")
@@ -94,7 +94,7 @@ class MyProfileFragment : Fragment() {
                 }
 
                 gridView = requireView().findViewById(R.id.gridOfImage)
-                adapter = GalleryAdapter(requireContext(), posts, auth.currentUser?.uid.toString())
+                adapter = GalleryAdapter(requireContext(), posts)
                 gridView.adapter = adapter
 
 
@@ -106,6 +106,8 @@ class MyProfileFragment : Fragment() {
                     intent.putExtra("imageUri", url)
                     requireContext().startActivity(intent)
                 }
+
+
             } else {
                 // Doc does not exist
             }
@@ -113,12 +115,24 @@ class MyProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_my_profile, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        radioGroup = requireView().findViewById(R.id.radioButtons)
+        gridView = requireView().findViewById(R.id.gridOfImage)
 
+        radioGroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                radioButton = view.findViewById(checkedId)
+                if(radioButton.text == "posts") {
+                    adapter = GalleryAdapter(requireContext(), posts)
+                    gridView.adapter = adapter
+                } else {
+                    adapter = GalleryAdapter(requireContext(), likes)
+                    gridView.adapter = adapter
+                }
 
+            }
+        })
     }
-
 }
