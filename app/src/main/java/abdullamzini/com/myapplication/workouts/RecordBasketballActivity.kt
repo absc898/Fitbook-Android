@@ -138,7 +138,7 @@ class RecordBasketballActivity : AppCompatActivity() {
                 }
 
                 val session = Session.Builder()
-                    .setName("Fitbook " + workoutName.text.toString())
+                    .setName(workoutName.text.toString())
                     .setIdentifier(workoutId)
                     .setDescription(workoutDescription.text.toString())
                     .setActivity(FitnessActivities.BASKETBALL)

@@ -104,7 +104,7 @@ class DetailedWeightActivity : AppCompatActivity() {
 
 
         val session = Session.Builder()
-            .setName("Fitbook " + name)
+            .setName(name)
             .setIdentifier(id)
             .setDescription(description)
             .setActivity(type)

@@ -12,4 +12,12 @@
         <item>Walking</item>
         <item>Basketball</item>
     </string-array>
+
+    <string-array name="workout_filter">
+        <item>All</item>
+        <item>WeightLifting</item>
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Basketball</item>
+    </string-array>
 </resources>

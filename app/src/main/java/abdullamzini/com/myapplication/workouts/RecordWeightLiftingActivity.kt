@@ -176,7 +176,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
                 Log.i("TIMER", "Session Start Time: $startTime")
 
                 val session = Session.Builder()
-                    .setName("Fitbook " + workoutName.text.toString())
+                    .setName(workoutName.text.toString())
                     .setIdentifier(workoutId)
                     .setDescription(workoutDescription.text.toString())
                     .setActivity(FitnessActivities.WEIGHTLIFTING)
