@@ -4,7 +4,6 @@ import abdullamzini.com.myapplication.R
 import android.content.Context
 import android.os.Build
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -22,6 +22,7 @@ class CommentAdapter(private val context: Context, private val arrayList: ArrayL
     private lateinit var comment: TextView
     private lateinit var userImage: ImageView
     private lateinit var dateAndTime: TextView
+    private lateinit var mainLayout: ConstraintLayout
 
 
     override fun getCount(): Int {
@@ -39,20 +40,21 @@ class CommentAdapter(private val context: Context, private val arrayList: ArrayL
         convertView = LayoutInflater.from(context).inflate(R.layout.row_comments, parent, false)
 
         comment = convertView.findViewById(R.id.commentDetails)
-        userImage = convertView.findViewById(R.id.profilePic)
         dateAndTime = convertView.findViewById(R.id.dateAndTime)
-
+        mainLayout = convertView.findViewById(R.id.mainLay)
 
         val obj = arrayList[position]
 
-        val pathReference: StorageReference =
-            FirebaseStorage.getInstance().reference.child("${obj["userID"]}/images/profilePic.jpg")
+        val pathReference: StorageReference = FirebaseStorage.getInstance().reference.child("${obj["userID"]}/images/profilePic.jpg")
         pathReference.downloadUrl.addOnSuccessListener {
-            Glide.with(context)
+            val imgView = convertView.findViewById<ImageView>(R.id.commentImage)
+            Glide
+                .with(context)
                 .load(it)
-                .into(userImage)
-        }.addOnFailureListener { it
-            Log.e("Image Download: ", it.message.toString())
+                .placeholder(R.drawable.ic_baseline_person_24)
+                .into(imgView)
+        }.addOnFailureListener {
+            //Log.e("Image Download: ")
             userImage.setImageResource(R.drawable.ic_baseline_person_24)
         }
 
