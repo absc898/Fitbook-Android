@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:tabGravity="fill"
-            app:tabInlineLabel="true"
+            app:tabInlineLabel="false"
             app:tabMode="fixed">
 
         </com.google.android.material.tabs.TabLayout>

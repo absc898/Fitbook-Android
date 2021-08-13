@@ -40,6 +40,7 @@ class CommentAdapter(private val context: Context, private val arrayList: ArrayL
         convertView = LayoutInflater.from(context).inflate(R.layout.row_comments, parent, false)
 
         comment = convertView.findViewById(R.id.commentDetails)
+        userImage = convertView.findViewById(R.id.commentImage)
         dateAndTime = convertView.findViewById(R.id.dateAndTime)
         mainLayout = convertView.findViewById(R.id.mainLay)
 

@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     private fun addTablelayoutImages() { // all the tabs we need for the features listed
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragmentTabs(FeedFragment(), "Feed")
-        adapter.addFragmentTabs(FitnessFragment(), "Workout")
+        adapter.addFragmentTabs(FitnessFragment(), "Fit")
         adapter.addFragmentTabs(FriendsFragment(), "Friends")
         adapter.addFragmentTabs(MyProfileFragment(), "Profile")
 

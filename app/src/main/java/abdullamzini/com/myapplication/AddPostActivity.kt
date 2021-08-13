@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
@@ -21,6 +23,7 @@ import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.gson.*
 import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -39,6 +42,7 @@ class AddPostActivity : AppCompatActivity() {
     private lateinit var loadingBar: ProgressBar
 
     private var filePath: Uri? = null
+    private lateinit var bitmap: Bitmap
     private val PICK_IMAGE_REQUEST = 71
     private val REQUEST_IMAGE_CAPTURE = 1
 
@@ -68,7 +72,7 @@ class AddPostActivity : AppCompatActivity() {
                         intent.type = "image/*"
                         intent.action = Intent.ACTION_GET_CONTENT
                         startActivityForResult(
-                            Intent.createChooser(intent, "Select a building site Image"),
+                            Intent.createChooser(intent, "Selecting Images"),
                             PICK_IMAGE_REQUEST
                         )
                     } else if(which == 1) { // TODO: https://developer.android.com/training/camera/photobasics
@@ -110,11 +114,47 @@ class AddPostActivity : AppCompatActivity() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             filePath = data?.data
             postImage.setImageURI(filePath)
+
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             filePath = getImageUri(this, imageBitmap)
             postImage.setImageBitmap(imageBitmap)
         }
+        loadingBar.visibility = View.VISIBLE
+        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+        // Convert bitmap to base64 encoded string
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
+        val base64encoded = Base64.encodeToString(imageBytes, Base64.NO_WRAP)
+        val request = JsonObject()
+        val image = JsonObject()
+        image.add("content", JsonPrimitive(base64encoded))
+        request.add("image", image)
+        val feature = JsonObject()
+        feature.add("maxResults", JsonPrimitive(5))
+        feature.add("type", JsonPrimitive("LABEL_DETECTION"))
+        val features = JsonArray()
+        features.add(feature)
+        request.add("features", features)
+
+        annotateImage(request.toString())
+            .addOnCompleteListener { task ->
+                loadingBar.visibility = View.GONE
+                if (!task.isSuccessful) {
+                    // Task failed with an exception
+                    Toast.makeText(baseContext, "Unable to find tags",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    // Task completed successfully
+                    for (label in task.result!!.asJsonArray[0].asJsonObject["labelAnnotations"].asJsonArray) {
+                        val labelObj = label.asJsonObject
+                        val text = labelObj["description"]
+                        val pastValue = postDetails.text
+                        postDetails.setText("$pastValue #$text")
+                    }
+                }
+            }
     }
 
     // TODO: https://stackoverflow.com/questions/26059748/is-there-a-way-to-get-uri-of-bitmap-without-saving-it-to-sdcard
@@ -152,5 +192,18 @@ class AddPostActivity : AppCompatActivity() {
                 }
         }
 
+    }
+
+    private fun annotateImage(requestJson: String): Task<JsonElement> {
+        return functions
+            .getHttpsCallable("annotateImage")
+            .call(requestJson)
+            .continueWith { task ->
+                // This continuation runs on either success or failure, but if the task
+                // has failed then result will throw an Exception which will be
+                // propagated down.
+                val result = task.result?.data
+                JsonParser.parseString(Gson().toJson(result))
+            }
     }
 }
