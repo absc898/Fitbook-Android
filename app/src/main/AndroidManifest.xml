@@ -16,13 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitbook">
-        <activity android:name=".DetailedFriendActivity"></activity>
+        <activity android:name=".ViewStoryActivity"></activity>
+        <activity android:name=".DetailedFriendActivity" />
         <activity android:name=".workouts.RecordBasketballActivity" />
         <activity android:name=".workouts.DetailedWeightActivity" />
         <activity android:name=".workouts.RecordRunningActivity" />
-        <activity android:name=".workouts.RecordWeightLiftingActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
+        <activity
+            android:name=".workouts.RecordWeightLiftingActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SelectWorkoutActivity" />
         <activity android:name=".auth.EditProfileActivity" />
         <activity android:name=".CommentsActivity" />

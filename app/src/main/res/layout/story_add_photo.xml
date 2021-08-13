@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="10dp">
+
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp">
+
+
+        <ImageView
+            android:id="@+id/storyProfilePic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:foreground="@drawable/rounded"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_baseline_person_24"/>
+
+<!--        <ImageView-->
+<!--            android:id="@+id/storyProfilePicAdd"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:src="@drawable/ic_baseline_add_post_24"/>-->
+
+    </RelativeLayout>
+
+</LinearLayout>

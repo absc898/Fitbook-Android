@@ -7,10 +7,14 @@ import abdullamzini.com.myapplication.fragments.FitnessFragment
 import abdullamzini.com.myapplication.fragments.FriendsFragment
 import abdullamzini.com.myapplication.fragments.MyProfileFragment
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -31,23 +35,32 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton
 import com.nightonke.boommenu.BoomMenuButton
+import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
-
     private lateinit var addButton: BoomMenuButton
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var functions: FirebaseFunctions
+    private lateinit var storage: FirebaseStorage
+
+
+    private var filePath: Uri? = null
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         functions = Firebase.functions
+        storage = FirebaseStorage.getInstance()
 
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabs)
@@ -70,6 +84,9 @@ class MainActivity : AppCompatActivity() {
             if(i == 1) {
                 image = R.drawable.ic_baseline_sports_24
                 text = "Record Workout"
+            } else if (i == 2) {
+                image = R.drawable.ic_baseline_stories_24
+                text = "Add Story"
             }
             val builder = TextInsideCircleButton.Builder().normalText(text).normalImageRes(image)
                 .listener { index ->
@@ -80,6 +97,9 @@ class MainActivity : AppCompatActivity() {
                     } else if(index == 1) {
                         val intent = Intent(this, SelectWorkoutActivity::class.java)
                         startActivity(intent)
+                    } else if(index == 2) {
+                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     }
                     //Toast.makeText(this, "Clicked $index", Toast.LENGTH_SHORT).show()
 
@@ -87,6 +107,36 @@ class MainActivity : AppCompatActivity() {
             addButton.addBuilder(builder)
         }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            filePath = getImageUri(this, imageBitmap)
+
+            val startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
+            val endTime = startTime + 86400
+            val uniqueImageIDName = UUID.randomUUID().toString()
+
+            val data = hashMapOf(
+                "startTime" to startTime,
+                "endTime" to endTime,
+                "imageId" to uniqueImageIDName,
+                "userId" to auth.currentUser!!.uid,
+            )
+            val imageRef: StorageReference = storage.reference.child("${auth.currentUser!!.uid}/story/$uniqueImageIDName.jpg")
+            imageRef.putFile(filePath!!).addOnSuccessListener {
+                functions.getHttpsCallable("addStory")
+                    .call(data)
+                    .continueWith {
+                        Toast.makeText(baseContext, "Story added",
+                            Toast.LENGTH_SHORT).show()
+                    }
+            }
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -227,5 +277,13 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w("TAG","Failed to read session", e)
             }
+    }
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path: String =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 }
