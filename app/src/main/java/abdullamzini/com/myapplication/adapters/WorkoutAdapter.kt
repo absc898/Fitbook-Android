@@ -4,6 +4,7 @@ import abdullamzini.com.myapplication.R
 import abdullamzini.com.myapplication.entities.WorkoutEntity
 import abdullamzini.com.myapplication.workouts.DetailedWeightActivity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.text.format.DateFormat
 import android.view.LayoutInflater
@@ -37,6 +38,10 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
     override fun onBindViewHolder(holder: WorkoutAdapterVH, position: Int, model: WorkoutEntity) {
         //var movements = model.getMovements()
         var activityType = model.getType()
+
+        if(model.getWorkoutID()!!.contains("activemode", true)) {
+            holder.cardView.setBackgroundColor(Color.LTGRAY)
+        }
 
         val calendar = Calendar.getInstance(Locale.ENGLISH)
         calendar.timeInMillis = (model.getStartTime()?.toLong() ?: 0) * 1000L

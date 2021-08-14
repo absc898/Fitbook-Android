@@ -36,15 +36,6 @@
                 android:checked="true" />
 
             <RadioButton
-                android:id="@+id/PendingRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:buttonTint="#fff200"
-                android:text="Pending"
-                android:checked="false" />
-
-            <RadioButton
                 android:id="@+id/FriendsRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:buttonTint="#0000cd"
-                android:text="Sent"
+                android:text="Requests"
                 android:checked="false" />
 
         </RadioGroup>

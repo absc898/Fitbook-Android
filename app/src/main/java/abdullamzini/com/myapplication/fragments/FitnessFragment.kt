@@ -69,10 +69,19 @@ class FitnessFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = workoutOptions.selectedItem.toString()
                 if(selectedItem == "All") {
-                    setUpRecyclerView(query.orderBy("startTime", Query.Direction.DESCENDING))
+                    query = db.collection("users")
+                        .document(auth.currentUser?.uid.toString())
+                        .collection("workouts")
+                        .orderBy("startTime", Query.Direction.DESCENDING)
+                    setUpRecyclerView(query)
 
                 } else {
-                    setUpRecyclerView(query.whereEqualTo("type", selectedItem.lowercase(Locale.getDefault())))
+                    query = db.collection("users")
+                        .document(auth.currentUser?.uid.toString())
+                        .collection("workouts")
+                        .orderBy("startTime", Query.Direction.DESCENDING)
+                        .whereEqualTo("type", selectedItem.lowercase(Locale.getDefault()))
+                    setUpRecyclerView(query)
                 }
             }
 
@@ -80,6 +89,7 @@ class FitnessFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(query: Query) {
+
         val options = FirestoreRecyclerOptions.Builder<WorkoutEntity>()
             .setQuery(query, WorkoutEntity::class.java)
             .setLifecycleOwner(this)

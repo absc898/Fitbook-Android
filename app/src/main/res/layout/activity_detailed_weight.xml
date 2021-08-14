@@ -46,6 +46,7 @@
         app:layout_constraintStart_toStartOf="@+id/workoutTitle"
         app:layout_constraintTop_toBottomOf="@+id/workoutDate" />
 
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteButton"
+        app:layout_constraintTop_toBottomOf="@+id/movementName"
         app:layout_constraintVertical_bias="0.01999998">
 
 
@@ -111,12 +112,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:visibility="gone"
+        android:focusable="false"
         android:inputType="number"
         android:text="0"
-        android:focusable="false"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/homeView"
         app:layout_constraintStart_toStartOf="@+id/homeView"
         app:layout_constraintTop_toBottomOf="@+id/homeView" />
@@ -128,12 +129,12 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:focusable="false"
         android:inputType="number"
         android:text="0"
-        android:visibility="gone"
-        android:focusable="false"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/awayView"
         app:layout_constraintStart_toStartOf="@+id/awayView"
         app:layout_constraintTop_toBottomOf="@+id/awayView" />
@@ -165,4 +166,46 @@
         app:layout_constraintEnd_toEndOf="@+id/workoutTitle"
         app:layout_constraintStart_toStartOf="@+id/workoutTitle"
         app:layout_constraintTop_toBottomOf="@+id/workoutDescription" />
+
+    <TextView
+        android:id="@+id/movementName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Name"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteButton" />
+
+    <TextView
+        android:id="@+id/set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:visibility="gone"
+        android:text="Set"
+        app:layout_constraintBaseline_toBaselineOf="@+id/movementName"
+        app:layout_constraintStart_toEndOf="@+id/movementName" />
+
+    <TextView
+        android:id="@+id/rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Rep"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/set"
+        app:layout_constraintEnd_toStartOf="@+id/weight" />
+
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:text="Weight"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rep"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

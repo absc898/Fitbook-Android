@@ -45,7 +45,7 @@ class FriendsAdapter (private val status: String, private val context: Context, 
             if(status != "All") {
                 holder.request.isEnabled = false
                 holder.request.visibility = View.GONE
-                if(status == "Pending") {
+                if(model.getStatus() == "Pending") {
                     holder.accept.visibility = View.VISIBLE
                     holder.decline.visibility = View.VISIBLE
                 }

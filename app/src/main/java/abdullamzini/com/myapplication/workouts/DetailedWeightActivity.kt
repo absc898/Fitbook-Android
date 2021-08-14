@@ -19,6 +19,7 @@ import com.google.android.gms.fitness.request.DataDeleteRequest
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_detailed_weight.*
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
@@ -76,7 +77,11 @@ class DetailedWeightActivity : AppCompatActivity() {
         val arl = intent.getSerializableExtra("movements") as ArrayList<*>?
 
         if(type != FitnessActivities.BASKETBALL) {
-            if (arl != null) {
+            if (arl != null && type == FitnessActivities.WEIGHTLIFTING) {
+                movementName.visibility = View.VISIBLE
+                set.visibility = View.VISIBLE
+                rep.visibility = View.VISIBLE
+                weight.visibility = View.VISIBLE
                 for(item in arl) {
                     val tempMap: HashMap<String, String> = item as HashMap<String, String>
                     val row: TableRow = LayoutInflater.from(this)
@@ -113,7 +118,7 @@ class DetailedWeightActivity : AppCompatActivity() {
             .build()
 
         val endTime1 = LocalDateTime.now().atZone(ZoneId.systemDefault())
-        val startTime1 = endTime1.minusWeeks(10)
+        val startTime1 = endTime1.minusWeeks(52)
 
         deleteWorkout.setOnClickListener{
             val request = DataDeleteRequest.Builder()
