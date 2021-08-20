@@ -10,11 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.ktx.functions
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -24,6 +28,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var collectionReference: CollectionReference
+    private lateinit var functions: FirebaseFunctions
 
     private lateinit var profilePic: ImageView
     private lateinit var numOfPosts: TextView
@@ -34,6 +39,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var radioButton: RadioButton
     var adapter: GalleryAdapter? = null
+    private lateinit var feedback: TextView
 
     private lateinit var posts: ArrayList<*>
     private lateinit var likes: ArrayList<*>
@@ -42,6 +48,7 @@ class MyProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         db = FirebaseFirestore.getInstance()
+        functions = Firebase.functions
         collectionReference = db.collection("users")
     }
 
@@ -66,6 +73,7 @@ class MyProfileFragment : Fragment() {
                 numOfWorkouts = requireView().findViewById(R.id.numWorkouts)
                 profilePic = requireView().findViewById(R.id.profilePic)
                 editProfile = requireView().findViewById(R.id.editButton)
+                feedback = requireView().findViewById(R.id.feedBack)
                 var url = ""
 
                 numOfPosts.text = posts.size.toString()
@@ -107,7 +115,47 @@ class MyProfileFragment : Fragment() {
                     requireContext().startActivity(intent)
                 }
 
+                feedback.setOnClickListener {
+                    val li = LayoutInflater.from(context)
+                    val dialogView: View = li.inflate(R.layout.alert_feedback, null)
+                    val builder = AlertDialog.Builder(requireContext())
+                    val feedback = dialogView.findViewById(R.id.feedbackText) as TextView
+                    builder.setView(dialogView)
 
+
+                    builder.setPositiveButton("Yes") { dialog, which ->
+                        if (feedback.text.isNotEmpty()) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Sending feedback....",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            val data = hashMapOf(
+                                "feedback" to feedback.text.toString(),
+                            )
+                            functions.getHttpsCallable("sendFeedback")
+                                .call(data)
+                                .continueWith {
+                                    Log.d(
+                                        "Feedback",
+                                        "Feedback sent"
+                                    )
+                                }
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Feedback cannot be empty",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    builder.setNegativeButton("Cancel") { dialog, which ->
+                        Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+                        }
+
+                    builder.show()
+                }
             } else {
                 // Doc does not exist
             }

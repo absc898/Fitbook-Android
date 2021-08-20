@@ -94,6 +94,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, CreateAccountActivity::class.java))
         }
 
+        forgotPassText.setOnClickListener{
+            startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
+        }
+
     }
 
     private fun signIn() {

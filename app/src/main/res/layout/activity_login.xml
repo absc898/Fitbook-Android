@@ -50,8 +50,8 @@
         android:autoLink="all"
         android:clickable="true"
         android:focusable="true"
-        android:text="Forgot password?"
-        android:textColorLink="#2196F3"
+        android:text="@string/forgotPass"
+        android:textColor="#2196F3"
         app:layout_constraintEnd_toEndOf="@+id/loginPassword"
         app:layout_constraintStart_toStartOf="@+id/loginPassword"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword" />

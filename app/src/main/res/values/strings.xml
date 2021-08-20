@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_user"><u>New user?</u></string>
+    <string name="forgotPass"><u>Forgot Password?</u></string>
     <string name="Accept"><u>Accept</u></string>
     <string name="Decline"><u>Decline</u></string>
 
