@@ -124,6 +124,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
+        //TODO: REF: https://firebase.google.com/docs/auth/android/password-auth
+
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         fAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->

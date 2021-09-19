@@ -25,7 +25,7 @@ class FeedAdapter(options: FirestoreRecyclerOptions<FeedEntity>) : FirestoreRecy
     options
 ) {
 
-    // TODO: Need to reference FIREBASE UI Cloudstore for below code
+    // TODO: REF: https://firebaseopensource.com/projects/firebase/firebaseui-android/firestore/readme/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedAdapterVH {
         return FeedAdapterVH(

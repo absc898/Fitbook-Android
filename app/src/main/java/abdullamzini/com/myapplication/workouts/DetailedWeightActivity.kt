@@ -86,6 +86,7 @@ class DetailedWeightActivity : AppCompatActivity() {
                     val tempMap: HashMap<String, String> = item as HashMap<String, String>
                     val row: TableRow = LayoutInflater.from(this)
                         .inflate(R.layout.table_list_temp, null) as TableRow
+                    //TODO REF: https://stackoverflow.com/questions/5183968/how-to-add-rows-dynamically-into-table-layout
                     (row.findViewById(R.id.attrib_name) as EditText).hint = tempMap["name"]
                     (row.findViewById(R.id.attrib_set) as EditText).hint = tempMap["sets"]
                     (row.findViewById(R.id.attrib_reps) as EditText).hint = tempMap["reps"]
@@ -107,6 +108,7 @@ class DetailedWeightActivity : AppCompatActivity() {
             }
         }
 
+        //TODO: REF: https://developers.google.com/fit/android/using-sessions
 
         val session = Session.Builder()
             .setName(name)

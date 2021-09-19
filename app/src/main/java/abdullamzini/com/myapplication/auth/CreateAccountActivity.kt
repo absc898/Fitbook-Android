@@ -105,6 +105,8 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private fun createAccount(name: String, mail: String, pass: String, phone: String) {
 
+        //TODO: REF: https://firebase.google.com/docs/auth/android/password-auth
+
         auth.createUserWithEmailAndPassword(mail, pass)
             .addOnCompleteListener(this) { task ->
                 if(task.isSuccessful) {

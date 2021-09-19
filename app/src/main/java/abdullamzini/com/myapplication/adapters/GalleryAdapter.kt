@@ -22,6 +22,8 @@ class GalleryAdapter(private val context: Context, private val arrayList: ArrayL
 
     // TODO: Might want to add a the constructor to pull the posts data for when a user selects it
 
+    //TODO: REF - https://stackoverflow.com/questions/63490176/how-to-display-firebase-storage-images-in-gridview
+
     override fun getCount(): Int {
         return arrayList.size
     }

@@ -41,6 +41,8 @@ class WorkoutAdapter (options: FirestoreRecyclerOptions<WorkoutEntity>) : Firest
 
         if(model.getWorkoutID()!!.contains("activemode", true)) {
             holder.cardView.setBackgroundColor(Color.LTGRAY)
+        } else {
+            holder.cardView.setBackgroundColor(Color.WHITE)
         }
 
         val calendar = Calendar.getInstance(Locale.ENGLISH)

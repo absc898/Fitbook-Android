@@ -185,6 +185,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    // TODO: REF: https://developers.google.com/fit/android/get-started
     private fun syncGoogleFit() {
 
         val workoutIds = arrayListOf<String>()
@@ -222,6 +223,7 @@ class MainActivity : AppCompatActivity() {
             .enableServerQueries()
             .build()
 
+        // TODO: REF: https://developers.google.com/fit/android/get-started
         Fitness.getSessionsClient(this, GoogleSignIn.getAccountForExtension(this, fitnessOptions))
             .readSession(readRequest)
             .addOnSuccessListener { response ->
@@ -278,7 +280,7 @@ class MainActivity : AppCompatActivity() {
                 Log.w("TAG","Failed to read session", e)
             }
     }
-
+    // TODO: REF https://stackoverflow.com/questions/26059748/is-there-a-way-to-get-uri-of-bitmap-without-saving-it-to-sdcard
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)

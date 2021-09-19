@@ -96,6 +96,8 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
             accessGoogleFit()
         }
 
+        //TODO: REF - https://www.youtube.com/watch?v=6AZH9QycL0A
+
         startTimer.setOnClickListener{
             startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
             timer.base = SystemClock.elapsedRealtime() + stopTime
@@ -111,6 +113,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
             startTimer.visibility = View.VISIBLE
         }
 
+        //TODO: REF - https://stackoverflow.com/questions/5183968/how-to-add-rows-dynamically-into-table-layout
         add.setOnClickListener{
             val row: TableRow = LayoutInflater.from(this)
                 .inflate(R.layout.table_list_temp, null) as TableRow
@@ -154,7 +157,7 @@ class RecordWeightLiftingActivity : AppCompatActivity() {
 
             builder.setView(dialogView)
 
-            // TODO:// https://www.journaldev.com/309/android-alert-dialog-using-kotlin
+            // TODO:REF: https://www.journaldev.com/309/android-alert-dialog-using-kotlin
             builder.setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(applicationContext,
                     "Please wait", Toast.LENGTH_SHORT).show()

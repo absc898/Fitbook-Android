@@ -33,7 +33,7 @@ class FriendsAdapter (private val status: String, private val context: Context, 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var functions: FirebaseFunctions = Firebase.functions
 
-    // TODO: Need to reference FIREBASE UI Cloudstore for below code
+    // TODO: REF: https://firebaseopensource.com/projects/firebase/firebaseui-android/firestore/readme/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsAdapter.FriendsAdapterVH {
         return FriendsAdapter.FriendsAdapterVH(LayoutInflater.from(parent.context).inflate(R.layout.adapter_friends, parent, false))

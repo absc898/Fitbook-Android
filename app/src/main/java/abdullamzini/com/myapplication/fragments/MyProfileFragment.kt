@@ -89,6 +89,7 @@ class MyProfileFragment : Fragment() {
                         Log.w("WORKOUTS", "Error getting workouts.", exception)
                     }
 
+                // TODO: REF - https://stackoverflow.com/questions/20743859/imageview-rounded-corners
                 val pathReference: StorageReference =
                     FirebaseStorage.getInstance().reference.child("${auth.currentUser?.uid.toString()}/images/profilePic.jpg")
                 pathReference.downloadUrl.addOnSuccessListener {

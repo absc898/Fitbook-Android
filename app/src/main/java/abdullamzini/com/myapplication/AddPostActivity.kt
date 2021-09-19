@@ -75,7 +75,7 @@ class AddPostActivity : AppCompatActivity() {
                             Intent.createChooser(intent, "Selecting Images"),
                             PICK_IMAGE_REQUEST
                         )
-                    } else if(which == 1) { // TODO: https://developer.android.com/training/camera/photobasics
+                    } else if(which == 1) { // TODO: REF https://developer.android.com/training/camera/photobasics
                         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     }
@@ -157,7 +157,7 @@ class AddPostActivity : AppCompatActivity() {
             }
     }
 
-    // TODO: https://stackoverflow.com/questions/26059748/is-there-a-way-to-get-uri-of-bitmap-without-saving-it-to-sdcard
+    // TODO: REF https://stackoverflow.com/questions/26059748/is-there-a-way-to-get-uri-of-bitmap-without-saving-it-to-sdcard
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)

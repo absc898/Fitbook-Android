@@ -84,6 +84,8 @@ class RecordRunningActivity : AppCompatActivity() {
                 fitnessOptions)
         }
 
+        //TODO: REF - https://www.youtube.com/watch?v=6AZH9QycL0A
+
         startTimer.setOnClickListener{
             startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
             timer.base = SystemClock.elapsedRealtime() + stopTime
@@ -113,7 +115,7 @@ class RecordRunningActivity : AppCompatActivity() {
 
             builder.setView(dialogView)
 
-            // TODO:// https://www.journaldev.com/309/android-alert-dialog-using-kotlin
+            // TODO: REF: https://www.journaldev.com/309/android-alert-dialog-using-kotlin
             builder.setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(applicationContext,
                     "Please wait", Toast.LENGTH_SHORT).show()
@@ -128,6 +130,8 @@ class RecordRunningActivity : AppCompatActivity() {
                 if(workoutDescription.text.isEmpty()) {
                     workoutDescription.setText("General workout session")
                 }
+
+                //TODO: REF: https://developers.google.com/fit/android/using-sessions
 
                 val session = Session.Builder()
                     .setName(workoutName.text.toString())
